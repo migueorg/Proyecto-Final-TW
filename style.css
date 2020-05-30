@@ -17,6 +17,31 @@ header {
     font-size: x-large;
 }
 
+.lista{
+    
+    padding-left: 30px;
+}
+
+.listar{
+    height: 1200px;
+}
+
+table tr:nth-child(even) {
+    background-color: #B7D7E8;
+}
+table tr:nth-child(odd) {
+    background-color: #CFE0E8;
+}
+    /* Encabezado */
+table tr:nth-child(1) {
+    background-color: #87BDD8;
+    border-bottom: solid 2px #667292;
+}
+
+.listar table{
+    padding-top: 30px;
+    padding-left: 30px;
+}
 
 
 nav{
@@ -24,13 +49,17 @@ nav{
     padding: 1%;
     margin-top: 1%;
     margin-bottom: 1%;
+    display: flex;
+    list-style: none;
 }
 
 a{
-    padding: 10px;
+    padding: 20px;
     color:black;
     text-decoration: none;
+    font-size: large;
 }
+
 
 
 
@@ -55,7 +84,7 @@ aside{
     margin-left: 5px;
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 20%;
 }
 
 aside label{
@@ -71,7 +100,12 @@ aside label{
     margin-left: 10%;
 }
 
+.lista{
+    
+}
 .lateral{
+    display: flex;
+    flex-direction: column;
     margin-bottom: 5px;
     border: 3px solid rgb(212,234,107);
     background-color:wheat;
@@ -81,9 +115,6 @@ aside label{
 .lateral input{
     max-width: 80px;
 }
-
-
-
 
 .titulo{
     display: flex;
@@ -116,18 +147,54 @@ aside label{
     justify-content: space-between;
 }
 
+.contacto{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;   
+}
+
+textarea{
+    resize: none;
+}
+
+
+.contacto form{
+    height:700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.error{
+    color: red;
+    font-size: small;
+}
 
 main{
     background-color: rgb(246,249,212);
     border: 3px solid rgb(187,227,61);
+    width: 80%;
 }
 
+.bienvenida{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xxx-large;
+    height: 700px;
+    flex-direction: column;
+}
 
 .info{
     display: flex;
     background-color: rgb(232,242,161);
     justify-content: space-around;
     margin: 5px;
+    font-size: x-large;
 }
 
 .info > img{
