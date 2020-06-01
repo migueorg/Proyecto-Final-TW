@@ -3,12 +3,21 @@ function HTMLnavegacion($activo) {
 echo <<< HTML
 <nav>
 HTML;
-$items = ["Inicio", "Lista recetas", "Contacto"]; //texto
-$links = ["inicio", "lista_recetas", "contacto"]; //url
+$items = ["Inicio", "Ver Listado"]; //texto
+$links = ["inicio", "ver_listado"]; //url
 foreach ($items as $k => $v)
 echo "<li>"."<a href='index.php?p=".$links[$k]."'>".$v."</a></li>";
-if(isset($_SESSION['usuario']))
-echo "<li>"."<a href='index.php?p=anadir_receta'>Añadir receta</a></li>";
+if(isset($_SESSION['tipo'])){
+    if($_SESSION['tipo']=='usuario' || $_SESSION['tipo']=='administrador' ){
+        echo "<li>"."<a href='index.php?p=anadir_receta'>Añadir nueva receta</a></li>";
+        echo "<li>"."<a href='index.php?p=ver_mis_recetas'>Ver mis recetas</a></li>";
+    } 
+    if($_SESSION['tipo']=='administrador'){
+        echo "<li>"."<a href='index.php?p=gestion_usuarios'>Gestión usuarios</a></li>";
+        echo "<li>"."<a href='index.php?p=ver_log'>Ver log</a></li>";
+        echo "<li>"."<a href='index.php?p=gestion_bbdd'>Gestión BBDD</a></li>";
+   } 
+}
 echo <<< HTML
 </nav>
 HTML;

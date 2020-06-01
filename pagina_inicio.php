@@ -5,7 +5,7 @@ echo <<< HTML
 <main>
 <section class="bienvenida">
 <h1>¡BIENVENIDO!</h1>
-<img src="imagenes/cheff.png" width="500">
+<img src="logoUGR.png" width="500">
 </section>
 </main>
 
