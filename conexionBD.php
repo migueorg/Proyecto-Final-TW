@@ -72,11 +72,11 @@ function ConsultaGeneral($select,$where){
 function InsertarUsuarioBD(Formularios $objF){
     $db=conectarDB();
     if($db){
-        $id_unico = 1;//uniqid();
+        $id_unico = uniqid();
         $nombre = addslashes( htmlentities( ucwords( $objF->nombre ) ) );
         $apellido = addslashes( htmlentities( ucwords( $objF->apellidos ) ) );
         $correo = addslashes( htmlentities( $objF->correo ) );
-        $clave = "hola";//addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) );
+        $clave = addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) );
         $rol = addslashes( htmlentities( $objF->rol ) ) ;
         
         $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo) VALUES ('$id_unico','$nombre','$apellido','$correo','$clave','$rol')";

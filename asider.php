@@ -29,13 +29,16 @@ HTML;
 HTML;
         
         echo "<img src='data:image/jpg;base64, ";
-        echo base64_encode(file_get_contents('logoUGR.png'));
+        echo base64_encode(file_get_contents($_SESSION['foto']));
         echo "'width='200' />";
         echo "<p>Bienvenido/a, ".$_SESSION['nombre'].", has iniciado sesión correctamente"."</p>";
         echo <<< HTML
                 <input type="submit" name="logout" value="Logout"/>
-                <input type="submit" name="editar" value="Editar"/>
+                
 
+            </form>
+            <form action="index.php" method="post">
+                <input type="submit" name="editar" value="Editar"/>
             </form>
         </section>   
 HTML;
