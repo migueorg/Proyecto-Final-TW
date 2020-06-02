@@ -14,7 +14,7 @@ class Formularios {
     public $rol;
     public $confirmado;
     public $hayerror = [];
-    public $hhhh; 
+    //public $hhhh; 
     public $contador = 0;
     public $coincide = false;
     

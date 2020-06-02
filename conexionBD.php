@@ -55,3 +55,27 @@ function ObtenerTipoUsuario($email){
         return null;
 
 }
+
+function ConsultaGeneral($select,$where){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT '{$select}' FROM usuarios WHERE '{$where}'='{$where}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $celda = $db_tupla[$where];
+        return $celda;
+    } else
+        return null;
+
+}
+
+//FALTA introducir foto
+function InsertarUsuarioBD(Formularios $objF){
+    $db=conectarDB();
+    if($db){
+        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, foto, password, tipo) VALUES ('"uniqueid()"','"addslashes( htmlentities( ucwords( $objF->nombre ) ) )"', '"addslashes( htmlentities( ucwords( $objF->apellidos ) ) )"', 
+        '"addslashes( htmlentities( $objF->correo ) )"', '$obj->foto' , '"addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) )"', '"addslashes( htmlentities( $objF->rol ) )"' )";
+        mysqli_query($db,$consulta);
+    }else
+        return null;
+
+}

@@ -167,7 +167,6 @@ function saneaDatos(Formularios &$objF){
         $objF->correo = $_POST['correo'];
     }
 
-    //Falta comprobar que coincidan clave1 y clave2
     //Compruebo la Clave
     if(empty($_POST['clave1'])){
         $objF->hayerror['clave1'] = '<p class="error">La clave no puede estar vacía</p>';
@@ -303,7 +302,6 @@ function confirmaDatos(Formularios &$objF){
 
 
 function simulaIndex(Formularios &$objF){
-    //Principio MAIN. BORRAR LUEGO, ESTO ES EN SUCIO
     echo "<div class='cuerpo'><main>";
     if(isset($_POST['nombre'])){
         saneaDatos($objF);
@@ -334,12 +332,8 @@ function simulaIndex(Formularios &$objF){
     }
 
     
-    //FINAL MAIN. BORRAR LUEGO, ESTO ES EN SUCIO
     echo "</main>";
 
 }
-
-
-
 
 ?>

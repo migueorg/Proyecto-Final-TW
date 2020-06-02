@@ -10,8 +10,8 @@ if(isset($_POST['login'])){
         if(!empty($_POST['email']) && !empty($_POST['clave'])){
             $email=$_POST['email'];
             $clave=$_POST['clave'];
-            $res = ObtenerClave($email);
-            if($res==$clave){
+            $hash = ObtenerClave($email);
+            if(password_verify ( string $clave , string $hash )){ 
                 $_SESSION['email']=$email;
                 $_SESSION['nombre']=ObtenerNombre($email);
                 $_SESSION['foto']=ObtenerFoto($email);
