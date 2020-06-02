@@ -72,10 +72,23 @@ function ConsultaGeneral($select,$where){
 function InsertarUsuarioBD(Formularios $objF){
     $db=conectarDB();
     if($db){
-        $id_unico = uniqid();
-        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo) VALUES ($id_unico,".addslashes( htmlentities( ucwords( $objF->nombre ) ) )."', '".addslashes( htmlentities( ucwords( $objF->apellidos ) ) )."', 
-        '".addslashes( htmlentities( $objF->correo ) )."' , '".addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) )."', '".addslashes( htmlentities( $objF->rol ) )."' )";
-        mysqli_query($db,$consulta);
+        $id_unico = 1;//uniqid();
+        $nombre = addslashes( htmlentities( ucwords( $objF->nombre ) ) );
+        $apellido = addslashes( htmlentities( ucwords( $objF->apellidos ) ) );
+        $correo = addslashes( htmlentities( $objF->correo ) );
+        $clave = "hola";//addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) );
+        $rol = addslashes( htmlentities( $objF->rol ) ) ;
+        
+        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo) VALUES ('$id_unico','$nombre','$apellido','$correo','$clave','$rol')";
+        
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+        
+        if($res){
+            echo "<h1>Insertado correctamente</h1>";
+        }else{
+            echo "<h1>Fallo al insertar</h1>";
+            
+        }
     }else
         return null;
 
