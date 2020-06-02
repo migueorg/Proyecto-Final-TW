@@ -134,8 +134,9 @@ function saneaDatos(Formularios &$objF){
         $objF->hayerror['correo'] = '<p class="error">El email no puede estar vacío</p>';
     }else if(is_numeric($_POST['correo'])){
         $objF->hayerror['correo'] = '<p class="error">El email no puede ser un número</p>';
-    }
-    else{
+    }else if (filter_var($_POST['correo'], FILTER_VALIDATE_EMAIL) == false){
+        $objF->hayerror['correo'] = '<p class="error">El email no es válido</p>';
+    }else{
         $objF->correo = $_POST['correo'];
     }
 
@@ -148,7 +149,7 @@ function saneaDatos(Formularios &$objF){
     }
     //Compruebo la Clave segunda
     if(empty($_POST['clave2'])){
-        $objF->hayerror['clave1'] = '<p class="error">La clave no puede estar vacía</p>';
+        $objF->hayerror['clave2'] = '<p class="error">La clave no puede estar vacía</p>';
     }else{
         $objF->clave2 = $_POST['clave2'];
     }  
@@ -162,9 +163,11 @@ function saneaDatos(Formularios &$objF){
 
     //Compruebo el Teléfono
     if(!empty($_POST['telefono'])){
-        if(!is_numeric($_POST['telefono'])){
+        if( preg_match('/^(\(\+[0-9]{2}\))?\s*[0-9]{3}\s*[0-9]{6}$/',$_POST['telefono']) == false ){
+            $objF->hayerror['telefono'] = '<p class="error">El numero no es válido</p>';
+        }/*if(!is_numeric($_POST['telefono'])){
             $objF->hayerror['telefono'] = '<p class="error">El telefono tiene que ser un número</p>';
-        }else{
+        }*/else{
             $objF->telefono = $_POST['telefono'];
         }
     }
@@ -270,15 +273,17 @@ function simulaIndex(Formularios &$objF){
         saneaDatos($objF);
     }
 
-    if(isset($objF->nombre) && isset($objF->apellidos) 
+    if(isset($_SESSION['obj']) && 
+    isset($objF->nombre) && isset($objF->apellidos) 
     && isset($objF->correo) && isset($objF->telefono) 
-    && isset($objF->clave1) && $objF->confirmado == 'si' && isset($_SESSION['obj'])) {
+    && isset($objF->clave1) && $objF->confirmado == 'si') {
         
         muestraDatos($objF);
         unset($_SESSION['obj']);
             
 
-    }else if(isset($objF->nombre) && isset($objF->apellidos) 
+    }else if(isset($_SESSION['obj']) 
+          && isset($objF->nombre) && isset($objF->apellidos) 
           && isset($objF->correo) && isset($objF->telefono) 
           && isset($objF->clave1)) {
             echo "CONFIRMAR";
