@@ -1,6 +1,6 @@
 <?php
-require "credenciales.php";
-
+require_once "credenciales.php";
+require_once "claseFormularios.php";
 function ConectarDB(){
     $db = mysqli_connect(DB_HOST, DB_USER, DB_PASSWD,DB_DATABASE);
     mysqli_set_charset($db,"utf8");
@@ -72,10 +72,13 @@ function ConsultaGeneral($select,$where){
 function InsertarUsuarioBD(Formularios $objF){
     $db=conectarDB();
     if($db){
-        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, foto, password, tipo) VALUES ('"uniqueid()"','"addslashes( htmlentities( ucwords( $objF->nombre ) ) )"', '"addslashes( htmlentities( ucwords( $objF->apellidos ) ) )"', 
-        '"addslashes( htmlentities( $objF->correo ) )"', '$obj->foto' , '"addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) )"', '"addslashes( htmlentities( $objF->rol ) )"' )";
+        $id_unico = uniqid();
+        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo) VALUES ($id_unico,".addslashes( htmlentities( ucwords( $objF->nombre ) ) )."', '".addslashes( htmlentities( ucwords( $objF->apellidos ) ) )."', 
+        '".addslashes( htmlentities( $objF->correo ) )."' , '".addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) )."', '".addslashes( htmlentities( $objF->rol ) )."' )";
         mysqli_query($db,$consulta);
     }else
         return null;
 
 }
+
+?>

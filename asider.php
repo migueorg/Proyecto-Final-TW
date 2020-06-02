@@ -1,6 +1,6 @@
 <?php
 function HTMLasider() {
-    require "conexionBD.php";
+    require_once "conexionBD.php";
     echo '<aside>';
 
     if(!isset($_SESSION['email'])){

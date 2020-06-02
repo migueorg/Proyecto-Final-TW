@@ -4,10 +4,10 @@ require "inicio.php";
 require "header.php";
 require "asider.php";
 require "footer.php";
-require "nav.php";
-require "pagina_inicio.php";
-require "claseFormularios.php";
-require "registrar.php";
+require_once "nav.php";
+require_once "pagina_inicio.php";
+require_once "claseFormularios.php";
+require_once "registrar.php";
 
 if(session_status()==PHP_SESSION_NONE)
 session_start();

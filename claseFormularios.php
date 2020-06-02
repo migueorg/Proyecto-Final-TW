@@ -17,6 +17,7 @@ class Formularios {
     //public $hhhh; 
     public $contador = 0;
     public $coincide = false;
+    public $foto;
     
    
     /*

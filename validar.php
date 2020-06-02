@@ -1,5 +1,5 @@
 <?php
-require 'conexionBD.php';
+require_once 'conexionBD.php';
 $db=ConectarDB();
 if(session_status()==PHP_SESSION_NONE)
     session_start();

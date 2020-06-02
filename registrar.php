@@ -1,5 +1,5 @@
 <?php
-
+require_once("conexionBD.php");
 function formularioRegistroBase(Formularios &$objF){
 
   
@@ -313,6 +313,7 @@ function simulaIndex(Formularios &$objF){
     && isset($objF->clave1) && $objF->confirmado == 'si'
     && $objF->coincide == true) {
         
+        InsertarUsuarioBD($objF);
         muestraDatos($objF);
         unset($_SESSION['obj']);
             
