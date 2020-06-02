@@ -16,78 +16,105 @@ function formularioRegistroBase(Formularios &$objF){
     //Nombre
     echo "<p>Nombre: <input type='text' name='nombre'";
     if(isset($objF->nombre)){
-        echo " value='".$objF->nombre."'";
+        echo " value='".$objF->nombre."' size='40'></p>";
     }
-    echo "size='40'></p>";
-    if(isset($objF->hayerror) && array_key_exists('nombre', $objF->hayerror)){
+    else if(isset($objF->hayerror) && array_key_exists('nombre', $objF->hayerror)){
+        echo "size='40'></p>";
         echo $objF->hayerror['nombre'];
     }
+    else echo "size='40'></p>";
 
     //Apellidos
     echo "<p>Apellidos: <input type='text' name='apellidos'";
     if(isset($objF->apellidos)){
-        echo " value='".$objF->apellidos."'";
+        echo " value='".$objF->apellidos."' size='40'></p>";
     }
-    echo "size='40'></p>";
-    if(isset($objF->hayerror) && array_key_exists('apellidos', $objF->hayerror)){
+    else if(isset($objF->hayerror) && array_key_exists('apellidos', $objF->hayerror)){
+        echo "size='40'></p>";
         echo $objF->hayerror['apellidos'];
-    }
+    }else echo "size='40'></p>";
 
     //Correo
     echo "<p>Correo Electrónico: <input type='email' name='correo'";
     if(isset($objF->correo)){
-        echo " value='".$objF->correo."'";
+        echo " value='".$objF->correo."'></p>";
     }
-    echo "></p>";
-    if(isset($objF->hayerror) && array_key_exists('correo', $objF->hayerror)){
+    else if(isset($objF->hayerror) && array_key_exists('correo', $objF->hayerror)){
+        echo "></p>";
         echo $objF->hayerror['correo'];
     }
+    else echo "></p>";
 
     //Clave
     echo "<p>Clave: <input type='text' name='clave1'";
     if(isset($objF->clave1)){
-        echo " value='".$objF->clave1."'";
+        echo " value='".$objF->clave1."' size='40'></p>";
     }
-    echo "size='40'></p>";
-    if(isset($objF->hayerror) && array_key_exists('clave1', $objF->hayerror)){
+    else if(isset($objF->hayerror) && array_key_exists('clave1', $objF->hayerror)){
+        echo "size='40'></p>";
         echo $objF->hayerror['clave1'];
     }
+    else echo "size='40'></p>";
     
     //Vuelve a introducir la clave
     echo "<p>Vuelve a introducir la clave: <input type='text' name='clave2'";
     if(isset($objF->clave2)){
-        echo " value='".$objF->clave2."'";
+        echo " value='".$objF->clave2."' size='40'></p>";
     }
-    echo "size='40'></p>";
-    if(isset($objF->hayerror) && array_key_exists('clave2', $objF->hayerror)){
+    else if(isset($objF->hayerror) && array_key_exists('clave2', $objF->hayerror)){
+        echo "size='40'></p>";
         echo $objF->hayerror['clave2'];
     }
+    else echo "size='40'></p>";
+
+    //Vuelve a introducir las clave
+    /*echo "<p>Vuelve a introducir la clave: <input type='text' name='clave2'";
+    if(isset($objF->clave2)){
+        echo " value='".$objF->clave2."'";
+    }
+    echo "size='40'></p>";*/
+    if(isset($objF->hayerror) && array_key_exists('coincidencia', $objF->hayerror)){
+        echo $objF->hayerror['coincidencia'];
+    }
+
+    
 
     //Dirección
     echo "<p>Dirección: <input type='text' name='direccion'";
     if(isset($objF->direccion)){
-        echo " value='".$objF->direccion."'";
+        echo " value='".$objF->direccion."' size='40'></p>";
     }
-    echo "size='40'></p>";
-    if(isset($objF->hayerror) && array_key_exists('direccion', $objF->hayerror)){
+    else if(isset($objF->hayerror) && array_key_exists('direccion', $objF->hayerror)){
+        echo "size='40'></p>";
         echo $objF->hayerror['direccion'];
     }
+    else echo "size='40'></p>";
 
     //Telefono
     echo "<p>Teléfono: <input type='tel' name='telefono'";
     if(isset($objF->telefono)){
-        echo " value='".$objF->telefono."'";
+        echo " value='".$objF->telefono."' ></p>";
     }
-    echo "></p>";
-    if(isset($objF->hayerror) && array_key_exists('telefono', $objF->hayerror)){
+    else if(isset($objF->hayerror) && array_key_exists('telefono', $objF->hayerror)){
+        echo "></p>";
         echo $objF->hayerror['telefono'];
     }
+    else echo "></p>";
+
     //Rol
-    echo"<p>Rol: 
-    <select name='rol'>
-        <option value='colaborador' selected>Colaborador</option>
-        <option value='administrador'>Administrador</option>
-    </select></p>";
+    if(isset($objF->rol) && ($objF->rol == 'administrador')){
+        echo"
+        <p>Rol: 
+        <select name='rol' readonly>
+            <option value='colaborador'>Colaborador</option>
+            <option value='administrador' selected>Administrador</option>
+        </select></p>";
+    }else{ 
+        echo"<p>Rol: 
+        <select name='rol'>
+            <option value='colaborador' selected>Colaborador</option>
+            <option value='administrador'>Administrador</option>
+        </select></p>";}
 
     //Cierre y botones
     echo"  <p>
@@ -152,7 +179,16 @@ function saneaDatos(Formularios &$objF){
         $objF->hayerror['clave2'] = '<p class="error">La clave no puede estar vacía</p>';
     }else{
         $objF->clave2 = $_POST['clave2'];
-    }  
+    }
+
+    if(!empty($_POST['clave1']) && !empty($_POST['clave2'])){
+        if($objF->clave1 == $objF->clave2){
+            $objF->coincide = true;
+            $objF->clave = $objF->clave2;
+        }else{
+            $objF->hayerror['coincidencia'] = '<p class="error">Las claves no coinciden</p>';
+        }
+    }
 
     //Compruebo la Dirección
     if(empty($_POST['direccion'])){
@@ -276,7 +312,8 @@ function simulaIndex(Formularios &$objF){
     if(isset($_SESSION['obj']) && 
     isset($objF->nombre) && isset($objF->apellidos) 
     && isset($objF->correo) && isset($objF->telefono) 
-    && isset($objF->clave1) && $objF->confirmado == 'si') {
+    && isset($objF->clave1) && $objF->confirmado == 'si'
+    && $objF->coincide == true) {
         
         muestraDatos($objF);
         unset($_SESSION['obj']);
@@ -285,7 +322,7 @@ function simulaIndex(Formularios &$objF){
     }else if(isset($_SESSION['obj']) 
           && isset($objF->nombre) && isset($objF->apellidos) 
           && isset($objF->correo) && isset($objF->telefono) 
-          && isset($objF->clave1)) {
+          && isset($objF->clave1) && $objF->coincide == true) {
             echo "CONFIRMAR";
         
             confirmaDatos(($objF));
