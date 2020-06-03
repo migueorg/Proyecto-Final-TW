@@ -1,8 +1,7 @@
 <?php
 
-
-
 class Formularios {
+    public $id;
     public $nombre;
     public $apellidos;
     public $correo;
@@ -13,30 +12,20 @@ class Formularios {
     public $telefono;
     public $rol;
     public $confirmado;
-    public $hayerror = [];
-    //public $hhhh; 
+    public $hayerror = []; 
     public $contador = 0;
     public $coincide = false;
     public $foto;
     public $tmp_name;
     public $orig_name;
-    
-   
-    /*
-    public function __construct($name){
-
-    }*/
-/*
-    function aMemberFunc() {
-        print 'Inside `aMemberFunc()`';
-    }
-*/
 }
-/*
-$foo = new Formularios;
 
-$foo->hayerror['apellido'] = '<p class="error">El apellido no puede ser un número</p>';
-
-echo $foo->hayerror['apellido'];
-*/
+class Recetas {
+    public $id;
+    public $idautor;
+    public $nombre;
+    public $descripcion;
+    public $ingredientes;
+    public $preparacion;
+}
 ?>
