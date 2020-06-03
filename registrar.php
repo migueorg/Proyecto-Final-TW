@@ -126,7 +126,7 @@ function formularioRegistroBase(Formularios &$objF){
 }
 
 function muestraDatos(Formularios $objF){
-    echo "<main>";
+    
     echo "<h1>Datos recibidos correctamente</h1>";
     echo "<p>Nombre: ".$objF->nombre."</p>";
     echo "<p>Apellidos: ".$objF->apellidos."</p>";
@@ -137,8 +137,7 @@ function muestraDatos(Formularios $objF){
     echo "<p>Rol: ".$objF->rol."</p>";
     echo "<p>Nombre original de la foto: ".$objF->orig_name."</p>";
     echo "<p>Nombre temporal de la foto: ".$objF->tmp_name."</p>";
-    echo "</main>";
-}
+    
 
 function saneaDatos(Formularios &$objF){
     //Compruebo el Nombre
@@ -328,7 +327,7 @@ function simulaIndex(Formularios &$objF){
 
     if(isset($_SESSION['obj']) && 
     isset($objF->nombre) && isset($objF->apellidos) 
-    && isset($objF->correo) && isset($objF->telefono) 
+    && isset($objF->correo) && isset($objF->clave2)
     && isset($objF->clave1) && $objF->confirmado == 'si'
     && $objF->coincide == true) {
         
@@ -339,7 +338,7 @@ function simulaIndex(Formularios &$objF){
 
     }else if(isset($_SESSION['obj']) 
           && isset($objF->nombre) && isset($objF->apellidos) 
-          && isset($objF->correo) && isset($objF->telefono) 
+          && isset($objF->correo)
           && isset($objF->clave1) && isset($objF->clave2)
           && $objF->coincide == true && isset($objF->foto)){
             
