@@ -246,6 +246,9 @@ function confirmaDatos(Formularios &$objF){
         echo $objF->hayerror['foto'];
     }*/
 
+    echo "<img src='data:image/jpg;base64, ";
+    echo base64_encode($objF->foto);
+    echo "'width='200' />";
     echo "<p>Nombre de la foto: ".$objF->orig_name."</p>";
     
     //Nombre

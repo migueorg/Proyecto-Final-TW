@@ -8,6 +8,7 @@ require_once "nav.php";
 require_once "pagina_inicio.php";
 require_once "claseFormularios.php";
 require_once "registrar.php";
+require_once "editar.php";
 
 if(session_status()==PHP_SESSION_NONE)
 session_start();
@@ -29,7 +30,7 @@ HTMLnavegacion($_GET['p']);
 switch ($_GET['p']) {
     case "inicio": HTMLpag_inicio(); if(isset($_SESSION['obj'])) unset($_SESSION['obj']); break;
     case "registrar": simulaIndex($_SESSION['obj']); break;
-    case "editar": simulaIndex($_SESSION['obj']); break;
+    case "editar": HTMLpag_editar(); break;
     default: HTMLpag_inicio(); break;
 }
 
