@@ -67,18 +67,6 @@ function ObtenerApellidos($email){
 
 }
 
-function ObtenerApellidos($email){
-    $db=ConectarDB();
-    $res = mysqli_query($db,"SELECT apellidos FROM usuarios WHERE email='{$email}'");
-    if( $res ){
-        $db_tupla = mysqli_fetch_assoc($res);
-        $apellidos = $db_tupla['apellidos'];
-        return $apellidos;
-    } else
-        return null;
-
-}
-
 function ObtenerTipoUsuario($email){
     $db=ConectarDB();
     $res = mysqli_query($db,"SELECT tipo FROM usuarios WHERE email='{$email}'");

@@ -1,6 +1,6 @@
 <?php
 
-require_once "register.php";
+require_once "registrar.php";
 
 if(session_status()==PHP_SESSION_NONE)
 session_start();
