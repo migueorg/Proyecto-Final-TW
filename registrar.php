@@ -137,7 +137,7 @@ function muestraDatos(Formularios $objF){
     echo "<p>Rol: ".$objF->rol."</p>";
     echo "<p>Nombre original de la foto: ".$objF->orig_name."</p>";
     echo "<p>Nombre temporal de la foto: ".$objF->tmp_name."</p>";
-    
+}
 
 function saneaDatos(Formularios &$objF){
     //Compruebo el Nombre
