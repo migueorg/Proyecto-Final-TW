@@ -214,7 +214,7 @@ function saneaDatos(Formularios &$objF){
     //Falta comprobar la extensión del archivo
     if(isset($_FILES['foto']) ){
         if($_FILES['foto']['error'] != 0){         
-            $objF->hayerror['foto'] = '<p class="error">La direccion no puede estar vacía</p>';
+            $objF->hayerror['foto'] = '<p class="error">La foto de perfil no puede estar vacía</p>';
         } else{
             $objF->foto = addslashes(file_get_contents($_FILES['foto']['tmp_name']));
             $objF->orig_name = $_FILES['foto']['name'];
@@ -269,8 +269,8 @@ function confirmaDatos(Formularios &$objF){
 
     
     //Vuelve a introducir la clave
-    echo "<p>Vuelve a introducir la clave: <input type='text' 
-    name='clave2' value='".$objF->clave2."'size='40' readonly></p>";
+    //echo "<p>Vuelve a introducir la clave: <input type='text' 
+    //name='clave2' value='".$objF->clave2."'size='40' readonly></p>";
 
 
     //Dirección
@@ -343,13 +343,13 @@ function simulaIndex(Formularios &$objF){
           && isset($objF->clave1) && isset($objF->clave2)
           && $objF->coincide == true && isset($objF->foto)){
             
-            echo "CONFIRMAR";
+            echo "¿Desea enviar estos datos?";
         
             confirmaDatos(($objF));
 
 
     }else{
-        echo "BASE";
+        echo "Rellene los campos";
         formularioRegistroBase($objF);
     }
 
