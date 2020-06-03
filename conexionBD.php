@@ -108,7 +108,7 @@ function YaExisteUsuario($nuevo_user){
     $res = mysqli_query($db,"SELECT email FROM usuarios WHERE email='{$nuevo_user}'");
     $db_tupla = mysqli_fetch_assoc($res);
     $antiguo = $db_tupla['email'];
-    if( $antigo == $nuevo_user ){
+    if( $antiguo == $nuevo_user ){
         return true;
     } else
         return false;
@@ -141,8 +141,8 @@ function InsertarUsuarioBD(Formularios $objF){
         $direccion = addslashes( htmlentities( ucwords( $objF->direccion ) ) );
         $telefono = addslashes( htmlentities( ucwords( $objF->telefono ) ) );
         
-        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo, foto) VALUES ('$id_unico','$nombre','$apellido'
-        ,'$correo','$clave','$rol', '$fotillo')";
+        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo, foto, direccion, telefono) VALUES ('$id_unico','$nombre','$apellido'
+        ,'$correo','$clave','$rol', '$fotillo', '$direccion', '$telefono')";
         
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
         

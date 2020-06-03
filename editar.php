@@ -51,6 +51,7 @@ function editarDatosListar(Formularios &$objF){
     //Telefono
     echo "<p>Teléfono: <input type='tel' name='telefono'
     value='".$objF->telefono."' ></p>";
+    echo $objF->telefono;
 
 
     //Rol
