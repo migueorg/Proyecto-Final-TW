@@ -46,7 +46,7 @@ function formularioRegistroBase(Formularios &$objF){
     else echo "></p>";
 
     //Clave
-    echo "<p>Clave: <input type='text' name='clave1'";
+    echo "<p>Clave: <input type='password' name='clave1'";
     if(isset($objF->clave1)){
         echo " value='".$objF->clave1."' size='40'></p>";
     }
@@ -57,7 +57,7 @@ function formularioRegistroBase(Formularios &$objF){
     else echo "size='40'></p>";
     
     //Vuelve a introducir la clave
-    echo "<p>Vuelve a introducir la clave: <input type='text' name='clave2'";
+    echo "<p>Vuelve a introducir la clave: <input type='password' name='clave2'";
     if(isset($objF->clave2)){
         echo " value='".$objF->clave2."' size='40'></p>";
     }
@@ -127,7 +127,11 @@ function formularioRegistroBase(Formularios &$objF){
 
 function muestraDatos(Formularios $objF){
     
-    echo "<h1>Datos recibidos correctamente</h1>";
+    //echo "<h1>Datos recibidos correctamente</h1>";
+    echo "<img src='data:image/jpg;base64, ";
+    echo base64_encode(stripslashes($objF->foto));
+    echo "'width='200' />";
+    echo "<p>Nombre de la foto: ".$objF->orig_name."</p>";
     echo "<p>Nombre: ".$objF->nombre."</p>";
     echo "<p>Apellidos: ".$objF->apellidos."</p>";
     echo "<p>Correo: ".$objF->correo."</p>";
@@ -135,8 +139,8 @@ function muestraDatos(Formularios $objF){
     echo "<p>Direccion: ".$objF->direccion."</p>";
     echo "<p>Telefono: ".$objF->telefono."</p>";
     echo "<p>Rol: ".$objF->rol."</p>";
-    echo "<p>Nombre original de la foto: ".$objF->orig_name."</p>";
-    echo "<p>Nombre temporal de la foto: ".$objF->tmp_name."</p>";
+    
+    //echo "<p>Nombre temporal de la foto: ".$objF->tmp_name."</p>";
 }
 
 function saneaDatos(Formularios &$objF){
@@ -164,6 +168,8 @@ function saneaDatos(Formularios &$objF){
         $objF->hayerror['correo'] = '<p class="error">El email no puede ser un número</p>';
     }else if (filter_var($_POST['correo'], FILTER_VALIDATE_EMAIL) == false){
         $objF->hayerror['correo'] = '<p class="error">El email no es válido</p>';
+    }else if(YaExisteUsuario($_POST['correo'])){
+        $objF->hayerror['correo'] = '<p class="error">El email introducido ya existe</p>';
     }else{
         $objF->correo = $_POST['correo'];
     }
@@ -247,7 +253,7 @@ function confirmaDatos(Formularios &$objF){
     }*/
 
     echo "<img src='data:image/jpg;base64, ";
-    echo base64_encode($objF->foto);
+    echo base64_encode(stripslashes($objF->foto));
     echo "'width='200' />";
     echo "<p>Nombre de la foto: ".$objF->orig_name."</p>";
     
@@ -266,7 +272,7 @@ function confirmaDatos(Formularios &$objF){
 
 
     //Clave
-    echo "<p>Clave: <input type='text' name='clave1' 
+    echo "<p>Clave: <input type='password' name='clave1' 
     value='".$objF->clave1."'size='40' readonly></p>";
 
     
@@ -345,13 +351,13 @@ function simulaIndex(Formularios &$objF){
           && isset($objF->clave1) && isset($objF->clave2)
           && $objF->coincide == true && isset($objF->foto)){
             
-            echo "¿Desea enviar estos datos?";
+            echo "<h1>¿Desea enviar estos datos?</h1>";
         
             confirmaDatos(($objF));
 
 
     }else{
-        echo "Rellene los campos";
+        echo "<h1>Rellene los campos</h1>";
         formularioRegistroBase($objF);
     }
 

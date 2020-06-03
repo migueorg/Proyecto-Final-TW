@@ -91,6 +91,29 @@ function ObtenerDireccion($email){
 
 }
 
+function ObtenerTelefono($email){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT telefono FROM usuarios WHERE email='{$email}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $telefono = $db_tupla['telefono'];
+        return $telefono;
+    } else
+        return null;
+
+}
+
+function YaExisteUsuario($nuevo_user){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT email FROM usuarios WHERE email='{$nuevo_user}'");
+    $db_tupla = mysqli_fetch_assoc($res);
+    $antiguo = $db_tupla['email'];
+    if( $antigo == $nuevo_user ){
+        return true;
+    } else
+        return false;
+}
+
 
 function ConsultaGeneral($select,$where){
     $db=ConectarDB();
@@ -115,13 +138,16 @@ function InsertarUsuarioBD(Formularios $objF){
         $clave = addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) );
         $rol = addslashes( htmlentities( $objF->rol ) ) ;
         $fotillo = $objF->foto;
+        $direccion = addslashes( htmlentities( ucwords( $objF->direccion ) ) );
+        $telefono = addslashes( htmlentities( ucwords( $objF->telefono ) ) );
         
-        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo, foto) VALUES ('$id_unico','$nombre','$apellido','$correo','$clave','$rol', '$fotillo')";
+        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo, foto) VALUES ('$id_unico','$nombre','$apellido'
+        ,'$correo','$clave','$rol', '$fotillo')";
         
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
         
         if($res){
-            echo "<h1>Insertado correctamente</h1>";
+            echo "<h1>Usuario insertado correctamente</h1>";
         }else{
             echo "<h1>Fallo al insertar</h1>";
             
