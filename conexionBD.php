@@ -79,6 +79,18 @@ function ObtenerTipoUsuario($email){
 
 }
 
+function ObtenerDireccion($email){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT direccion FROM usuarios WHERE email='{$email}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $direccion = $db_tupla['direccion'];
+        return $direccion;
+    } else
+        return null;
+
+}
+
 
 function ConsultaGeneral($select,$where){
     $db=ConectarDB();
