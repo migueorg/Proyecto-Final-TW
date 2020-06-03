@@ -15,7 +15,7 @@ function ObtenerId($email){
     $res = mysqli_query($db,"SELECT id FROM usuarios WHERE email='{$email}'");
     if( $res ){
         $db_tupla = mysqli_fetch_assoc($res);
-        $od = $db_tupla['id'];
+        $id = $db_tupla['id'];
         return $id;
     } else
         return null;
@@ -143,6 +143,44 @@ function InsertarUsuarioBD(Formularios $objF){
         
         $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo, foto, direccion, telefono) VALUES ('$id_unico','$nombre','$apellido'
         ,'$correo','$clave','$rol', '$fotillo', '$direccion', '$telefono')";
+        
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+        
+        if($res){
+            echo "<h1>Usuario insertado correctamente</h1>";
+        }else{
+            echo "<h1>Fallo al insertar</h1>";
+            
+        }
+    }else
+        return null;
+
+}
+
+function ActualizarUsuarioBD(Formularios $objF){
+    $db=conectarDB();
+    if($db){
+        $id_unico = $objF->id;
+        $nombre = addslashes( htmlentities( ucwords( $objF->nombre ) ) );
+        $apellido = addslashes( htmlentities( ucwords( $objF->apellidos ) ) );
+        $correo = addslashes( htmlentities( $objF->correo ) );
+        $clave = addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) );
+        $rol = addslashes( htmlentities( $objF->rol ) ) ;
+        $fotillo = $objF->foto;
+        $direccion = addslashes( htmlentities( ucwords( $objF->direccion ) ) );
+        $telefono = addslashes( htmlentities( ucwords( $objF->telefono ) ) );
+        
+        $consulta=
+        "UPDATE usuarios 
+        SET nombre = '$nombre',
+            apellidos = '$apellido', 
+            email = '$correo', 
+            password = '$clave', 
+            tipo = '$rol', 
+            foto = '$fotillo',
+            direccion = '$direccion', 
+            telefono = '$telefono' 
+            WHERE id = '$id_unico'";
         
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
         

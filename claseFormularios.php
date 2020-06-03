@@ -18,6 +18,9 @@ class Formularios {
     public $foto;
     public $tmp_name;
     public $orig_name;
+
+    public $editarIniciado = 'no';
+    public $modificaFoto;
 }
 
 class Recetas {

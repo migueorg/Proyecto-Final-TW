@@ -19,6 +19,12 @@ if(!isset($_SESSION['obj'])){
     $_SESSION['obj'] = $objF;
 }//else echo "Ya esta crado el objeto";
 
+if(!isset($_SESSION['obj_editar'])){
+    //echo "No esta creado";
+    $objF_editar = new Formularios;
+    $_SESSION['obj_editar'] = $objF_editar;
+}//else echo "Ya esta crado el objeto";
+
 if(!isset($_GET['p']))
     $_GET['p'] = "inicio";
 
@@ -28,9 +34,16 @@ HTMLheader();
 HTMLnavegacion($_GET['p']);
 
 switch ($_GET['p']) {
-    case "inicio": HTMLpag_inicio(); if(isset($_SESSION['obj'])) unset($_SESSION['obj']); break;
+    case "inicio": 
+        HTMLpag_inicio(); 
+        if(isset($_SESSION['obj'])) 
+            unset($_SESSION['obj']); 
+        if(isset($_SESSION['obj_editar'])) 
+            unset($_SESSION['obj_editar']);
+        break;
+
     case "registrar": simulaIndex($_SESSION['obj']); break;
-    case "editar": HTMLpag_editar(); break;
+    case "editar": simulaIndexEditar($_SESSION['obj_editar']); break;
     default: HTMLpag_inicio(); break;
 }
 
