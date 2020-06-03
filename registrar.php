@@ -213,14 +213,14 @@ function saneaDatos(Formularios &$objF){
 
     //Falta comprobar la extensión del archivo
     if(isset($_FILES['foto']) ){
-       /* if($_FILES['foto']['error'] != 0){         
-            echo "<label><span>fotografia:</span><input type='file' name='fotografia' size='short'></label>";
-        } else{*/
+        if($_FILES['foto']['error'] != 0){         
+            $objF->hayerror['foto'] = '<p class="error">La direccion no puede estar vacía</p>';
+        } else{
             $objF->foto = addslashes(file_get_contents($_FILES['foto']['tmp_name']));
             $objF->orig_name = $_FILES['foto']['name'];
             //echo "Imagen: ".$_SESSION['nombrefotografia'];
             //$fotografia_correcto = true;
-        //}
+        }
     } 
 
 
@@ -303,8 +303,11 @@ function confirmaDatos(Formularios &$objF){
     //Cierre y botones
     echo"  <p>
         <input type='submit' value='Enviar'>
-        <input type='reset' value='Borrar'>
       </p>
+    </form>
+    
+    <form action='index.php'>
+        <input type='submit' value='Cancelar' />
     </form>";
 
 }
@@ -337,7 +340,9 @@ function simulaIndex(Formularios &$objF){
     }else if(isset($_SESSION['obj']) 
           && isset($objF->nombre) && isset($objF->apellidos) 
           && isset($objF->correo) && isset($objF->telefono) 
-          && isset($objF->clave1) && $objF->coincide == true) {
+          && isset($objF->clave1) && isset($objF->clave2)
+          && $objF->coincide == true && isset($objF->foto)){
+            
             echo "CONFIRMAR";
         
             confirmaDatos(($objF));
