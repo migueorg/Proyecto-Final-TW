@@ -220,7 +220,7 @@ function saneaDatos(Formularios &$objF){
             $objF->orig_name = $_FILES['foto']['name'];
             //echo "Imagen: ".$_SESSION['nombrefotografia'];
             //$fotografia_correcto = true;
-        }
+        //}
     } 
 
 
