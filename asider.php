@@ -23,21 +23,22 @@ HTML;
         </section>
 HTML;
     } else{
-        echo <<< HTML
-        <section class="lateral">
-            <form action="validar.php" method="post">
-HTML;
-        
+        echo "<section class='lateral'>";
         echo "<img src='data:image/jpg;base64, ";
         echo base64_encode($_SESSION['foto']);
         echo "'width='200' />";
         echo "<p>Bienvenido/a, ".$_SESSION['nombre'].", has iniciado sesión correctamente"."</p>";
         echo <<< HTML
+        
+            <form action="validar.php" method="post">
+HTML;
+        
+        echo <<< HTML
                 <input type="submit" name="logout" value="Logout"/>
                 
 
             </form>
-            <form action="index.php" method="post">
+            <form action="index.php?p=registrar" method="post">
                 <input type="submit" name="editar" value="Editar"/>
             </form>
         </section>   
