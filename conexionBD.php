@@ -78,8 +78,9 @@ function InsertarUsuarioBD(Formularios $objF){
         $correo = addslashes( htmlentities( $objF->correo ) );
         $clave = addslashes( htmlentities( password_hash( $objF->clave, PASSWORD_DEFAULT ) ) );
         $rol = addslashes( htmlentities( $objF->rol ) ) ;
+        $fotillo = $objF->foto;
         
-        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo) VALUES ('$id_unico','$nombre','$apellido','$correo','$clave','$rol')";
+        $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo, foto) VALUES ('$id_unico','$nombre','$apellido','$correo','$clave','$rol', '$fotillo')";
         
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
         

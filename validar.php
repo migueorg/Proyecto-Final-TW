@@ -11,7 +11,7 @@ if(isset($_POST['login'])){
             $email=$_POST['email'];
             $clave=$_POST['clave'];
             $hash = ObtenerClave($email);
-            if(password_verify ( string $clave , string $hash )){ 
+            if(password_verify ($clave , $hash)){ 
                 $_SESSION['email']=$email;
                 $_SESSION['nombre']=ObtenerNombre($email);
                 $_SESSION['foto']=ObtenerFoto($email);

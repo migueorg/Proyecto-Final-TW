@@ -135,6 +135,8 @@ function muestraDatos(Formularios $objF){
     echo "<p>Direccion: ".$objF->direccion."</p>";
     echo "<p>Telefono: ".$objF->telefono."</p>";
     echo "<p>Rol: ".$objF->rol."</p>";
+    echo "<p>Nombre original de la foto: ".$objF->orig_name."</p>";
+    echo "<p>Nombre temporal de la foto: ".$objF->tmp_name."</p>";
     echo "</main>";
 }
 
@@ -209,6 +211,18 @@ function saneaDatos(Formularios &$objF){
 
     $objF->rol = $_POST['rol'];
 
+    //Falta comprobar la extensión del archivo
+    if(isset($_FILES['foto']) ){
+       /* if($_FILES['foto']['error'] != 0){         
+            echo "<label><span>fotografia:</span><input type='file' name='fotografia' size='short'></label>";
+        } else{*/
+            $objF->foto = addslashes(file_get_contents($_FILES['foto']['tmp_name']));
+            $objF->orig_name = $_FILES['foto']['name'];
+            //echo "Imagen: ".$_SESSION['nombrefotografia'];
+            //$fotografia_correcto = true;
+        }
+    } 
+
 
 
 }
@@ -232,6 +246,8 @@ function confirmaDatos(Formularios &$objF){
     if(isset($objF->hayerror) && array_key_exists('foto', $objF->hayerror)){
         echo $objF->hayerror['foto'];
     }*/
+
+    echo "<p>Nombre de la foto: ".$objF->orig_name."</p>";
     
     //Nombre
     echo "<p>Nombre: <input type='text' name='nombre' 

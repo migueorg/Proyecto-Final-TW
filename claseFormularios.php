@@ -18,6 +18,8 @@ class Formularios {
     public $contador = 0;
     public $coincide = false;
     public $foto;
+    public $tmp_mame;
+    public $orig_name;
     
    
     /*
