@@ -38,7 +38,7 @@ HTML;
                 
 
             </form>
-            <form action="index.php?p=registrar" method="post">
+            <form action="editar.php" method="post">
                 <input type="submit" name="editar" value="Editar"/>
             </form>
         </section>   

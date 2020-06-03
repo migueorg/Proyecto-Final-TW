@@ -29,7 +29,7 @@ HTMLnavegacion($_GET['p']);
 switch ($_GET['p']) {
     case "inicio": HTMLpag_inicio(); if(isset($_SESSION['obj'])) unset($_SESSION['obj']); break;
     case "registrar": simulaIndex($_SESSION['obj']); break;
-    //Ojo con ese 
+    case "registrar": simulaIndex($_SESSION['obj']); break;
     default: HTMLpag_inicio(); break;
 }
 
