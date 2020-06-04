@@ -1,6 +1,10 @@
-$res = mysqli_query($db,"SELECT * FROM web_recetas WHERE Título='".$_POST['id']."'");
+<?php
+function HTMLmostar_receta($id){
+    require_once("conexionBD.php");
+    $db = ConectarDB();
+    $res = mysqli_query($db,"SELECT * FROM recetas WHERE id='$id'");
     $tuplas = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    $_SESSION['titulooriginal'] = $tuplas[0]['Título'];
+    $_SESSION['nombre'] = $tuplas[0]['nombre'];
     if($res){
         if( !isset($_POST['confirmar'])){
 
@@ -139,3 +143,5 @@ $res = mysqli_query($db,"SELECT * FROM web_recetas WHERE Título='".$_POST['id']
 
 
             }
+        }
+}
