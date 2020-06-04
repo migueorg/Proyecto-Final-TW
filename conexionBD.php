@@ -127,7 +127,6 @@ function ConsultaGeneral($select,$where){
 
 }
 
-//FALTA introducir foto
 function InsertarUsuarioBD(Formularios $objF){
     $db=conectarDB();
     if($db){
@@ -176,12 +175,25 @@ function ActualizarUsuarioBD(Formularios $objF){
             apellidos = '$apellido', 
             email = '$correo', 
             password = '$clave', 
-            tipo = '$rol', 
+            tipo = '$rol',
+            direccion = '$direccion', 
+            telefono = '$telefono' 
+            WHERE id = '$id_unico'";
+
+        $consulta_con_foto=
+        "UPDATE usuarios 
+        SET nombre = '$nombre',
+            apellidos = '$apellido', 
+            email = '$correo', 
+            password = '$clave', 
+            tipo = '$rol',
             foto = '$fotillo',
             direccion = '$direccion', 
             telefono = '$telefono' 
             WHERE id = '$id_unico'";
         
+        if($objF->modificaFoto == 'si') $consulta = $consulta_con_foto;
+
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
         
         if($res){
@@ -189,6 +201,33 @@ function ActualizarUsuarioBD(Formularios $objF){
         }else{
             echo "<h1>Fallo al insertar</h1>";
             
+        }
+    }else
+        return null;
+
+}
+
+
+function InsertarRecetaBD(Recetas $objR){
+    $db=conectarDB();
+    if($db){
+        $id_unico = uniqid();
+        $id_autor = ObtenerId($_SESSION['email']);
+        $nombre = addslashes( htmlentities( ucwords( $objR->nombre ) ) );
+        $descripcion = addslashes( htmlentities($objR->descripcion ) );
+        $ingredientes = addslashes( htmlentities($objR->ingredientes ) );
+        $preparacion = addslashes( htmlentities($objR->ingredientes ) );
+
+        $consulta="INSERT INTO recetas (id, idautor, nombre, descripcion, ingredientes, preparacion) VALUES ('$id_unico', '$id_autor','$nombre','$descripcion'
+        ,'$ingredientes','$preparacion')";
+
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+
+        if($res){
+            echo "<h1>Receta insertada correctamente</h1>";
+        }else{
+            echo "<h1>Fallo al insertar</h1>";
+
         }
     }else
         return null;

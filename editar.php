@@ -485,6 +485,17 @@ function muestraDatosEditar(Formularios $objF){
     //echo "<p>Nombre temporal de la foto: ".$objF->tmp_name."</p>";
 }
 
+function forzarCierreSesion(){
+    // La sesión debe estar iniciada
+    if (session_status()==PHP_SESSION_NONE)
+    session_start();     //No podemos borrar una variable que no existe, por si acaso la creo y la borro
+    // Borrar variables de sesión
+    //$_SESSION = array();
+    session_unset();
+    // Destruir sesión
+    session_destroy();
+}
+
 
 
 
@@ -512,6 +523,7 @@ function simulaIndexEditar(Formularios &$objF){
         ActualizarUsuarioBD($objF);
         muestraDatosEditar($objF);
         unset($_SESSION['obj_edit']);
+        forzarCierreSesion();
             
 
     }else if(isset($_SESSION['obj_editar']) 
