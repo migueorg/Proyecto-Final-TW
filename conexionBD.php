@@ -127,6 +127,14 @@ function ConsultaGeneral($select,$where){
 
 }
 
+
+function RecuperaUsuariosTmp(){
+    $db=ConectarDB();
+    $consultatmp = "SELECT * FROM usuarios_pendientes WHERE verificado='no'";
+    $res = mysqli_query($db,$consultatmp) or trigger_error("Query Failed! SQL: $consultatmp - Error: ".mysqli_error($db), E_USER_ERROR);
+    return $res;
+}
+
 function InsertarUsuarioBD(Formularios $objF){
     $db=conectarDB();
     if($db){
@@ -141,10 +149,24 @@ function InsertarUsuarioBD(Formularios $objF){
         $telefono = addslashes( htmlentities( ucwords( $objF->telefono ) ) );
         
         $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo, foto, direccion, telefono) VALUES ('$id_unico','$nombre','$apellido'
-        ,'$correo','$clave','$rol', '$fotillo', '$direccion', '$telefono')";
+        ,'$correo','$clave','colaborrador', '$fotillo', '$direccion', '$telefono')";
+        //Los usuarios registrados siempre van a entrar como colaboradores
         
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
         
+        //Si ha solicitado ser administrador, será colaorador hasta que lo acepten
+        if($rol == 'administrador'){
+            $consulta2="INSERT INTO usuarios_pendientes (id, nombre, apellidos, email, password, foto, direccion, telefono, verificado) VALUES ('$id_unico','$nombre','$apellido'
+            ,'$correo','$clave','$fotillo', '$direccion', '$telefono','no')";
+        
+            $res2 = mysqli_query($db,$consulta2) or trigger_error("Query Failed! SQL: $consulta2 - Error: ".mysqli_error($db), E_USER_ERROR);
+
+            if($res2){
+                echo "<h1>Usuario insertado correctamente a la lista de temporales</h1>";
+            }else echo "<h1>Fallo al insertar a la lista de temporales</h1>";   
+    
+        }
+
         if($res){
             echo "<h1>Usuario insertado correctamente</h1>";
         }else{

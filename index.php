@@ -10,6 +10,7 @@ require_once "claseFormularios.php";
 require_once "registrar.php";
 require_once "editar.php";
 require_once "anadir_receta.php";
+require_once "gestionUsuarios.php";
 
 if(session_status()==PHP_SESSION_NONE)
 session_start();
@@ -53,6 +54,7 @@ switch ($_GET['p']) {
     case "registrar": simulaIndex($_SESSION['obj']); break;
     case "editar": simulaIndexEditar($_SESSION['obj_editar']); break;
     case "anadir_receta": simulaIndexAnadirReceta($_SESSION['objR']); break;
+    case "gestion_usuarios": muestraPendientes(); break;
     default: HTMLpag_inicio(); break;
 }
 
