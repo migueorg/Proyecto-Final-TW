@@ -11,6 +11,7 @@ require_once "registrar.php";
 require_once "editar.php";
 require_once "anadir_receta.php";
 require_once "gestionUsuarios.php";
+require_once "pagina_listar.php";
 
 if(session_status()==PHP_SESSION_NONE)
 session_start();
@@ -55,7 +56,7 @@ switch ($_GET['p']) {
     case "editar": simulaIndexEditar($_SESSION['obj_editar']); break;
     case "anadir_receta": simulaIndexAnadirReceta($_SESSION['objR']); break;
     case "gestion_usuarios": simulaIndexGestionUsuarios(); break;
-    case "ver_listado": HTMLpag_inicio();break;
+    case "ver_listado": HTMLpag_listarecetas();break;
     default: HTMLpag_inicio(); break;
 }
 

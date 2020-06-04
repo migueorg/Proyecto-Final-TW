@@ -22,6 +22,12 @@ header {
     padding-left: 30px;
 }
 
+.botoneslista{
+    display: flex;
+    background-color: lightpink;
+    margin-top: 1%;
+}
+
 .listar{
     height: 1200px;
 }
