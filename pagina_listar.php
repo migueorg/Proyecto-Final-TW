@@ -1,23 +1,35 @@
 <?php
+require_once("conexionBD.php");
 function HTMLpag_listarecetas(){
-    require_once("conexionBD.php");
+    
     $db = ConectarDB();    
     if($db){
-        if( isset($_SESSION['tipo']) && $_SESSION['tipo']=='administrador' ){    
+        if( isset($_SESSION['tipo']) && $_SESSION['tipo']=='administrador' ){    //Si soy administrador busco todas las recetas
             $res = mysqli_query($db,"SELECT * FROM recetas ");
         }else if($_SESSION['tipo']=='colaborador'){
             $id = ObtenerId($_SESSION['email']);
-            $res = mysqli_query($db,"SELECT * FROM recetas WHERE id='$id'");
+            $res = mysqli_query($db,"SELECT * FROM recetas WHERE idautor='".$id."'");    //Si soy colaborador busco solo mis recetas
+            $autor = $_SESSION['nombre'];
         }
-        echo "<section class='ingredientes'>
+        
+        $tupla=mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+        echo "<div class='cuerpo'><main>
             <ul>";
-                $ingredientes = explode(',',$tupla['nombre']);
-                foreach($ingredientes as $i){
-                    echo "<li>".$i."</li>";
+                for($i=0; $i < count($tupla); $i++){
+                    $array_nombres[] = $tupla[$i]['nombre'];
+                    echo "<li class='botoneslista'>".$array_nombres[$i];
+                    echo $autor;
+                    echo "<form action='index.php?p=editar_receta' method='post'>";
+                    echo "<input type='submit' name='editar' value='Editar'/></form>";
+                    echo "<form action='index.php?p=ver_receta' method='post'>";
+                    echo "<input type='submit' name='ver' value='Ver'/></form>";
+                    echo "<form action='index.php?p=borrar_receta' method='post'>";
+                    echo "<input type='submit' name='borrar' value='Borrar'/></form>";
+                    echo "</li>";
                 }
                 
-            echo "</ul>
-        </section>";
+            echo "</ul></main>";
     }
 }
 ?>
