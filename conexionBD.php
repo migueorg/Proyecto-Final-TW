@@ -135,6 +135,22 @@ function RecuperaUsuariosTmp(){
     return $res;
 }
 
+function ValidaUsuarioTmp($id_rol){
+    $db=ConectarDB();
+    $consultatmp = "UPDATE usuarios SET tipo='administrador' WHERE id = '$id_rol'";
+    $consultatmp2 = "DELETE FROM usuarios_pendientes WHERE id = '$id_rol'";
+    
+    $res = mysqli_query($db,$consultatmp) or trigger_error("Query Failed! SQL: $consultatmp - Error: ".mysqli_error($db), E_USER_ERROR);
+
+    if($res){
+        $res2 = mysqli_query($db,$consultatmp2) or trigger_error("Query Failed! SQL: $consultatmp2 - Error: ".mysqli_error($db), E_USER_ERROR);
+        if($res2){
+            echo "<h1>Validación exitosa</h1>";
+        }
+    }
+    
+}
+
 function InsertarUsuarioBD(Formularios $objF){
     $db=conectarDB();
     if($db){
