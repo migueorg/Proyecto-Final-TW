@@ -139,17 +139,17 @@ function simulaIndexAnadirReceta(Recetas &$objR){
         saneaDatosReceta($objR);
     }
 
-    if(isset($_SESSION['obj']) && 
+    if(isset($_SESSION['objR']) && 
     isset($objR->nombre) && isset($objR->descripcion) 
     && isset($objR->ingredientes) && isset($objR->preparacion)
     && $objR->confirmado == 'si') {
         
         InsertarRecetaBD($objR);
         muestraDatosReceta($objR);
-        unset($_SESSION['obj']);
+        unset($_SESSION['objR']);
             
 
-    }else if(isset($_SESSION['obj']) 
+    }else if(isset($_SESSION['objR']) 
           && isset($objR->nombre) && isset($objR->descripcion) 
           && isset($objR->ingredientes)
           && isset($objR->preparacion)){

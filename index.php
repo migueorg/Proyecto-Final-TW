@@ -46,6 +46,8 @@ switch ($_GET['p']) {
             unset($_SESSION['obj']); 
         if(isset($_SESSION['obj_editar'])) 
             unset($_SESSION['obj_editar']);
+        if(isset($_SESSION['objR'])) 
+            unset($_SESSION['objR']);
         break;
 
     case "registrar": simulaIndex($_SESSION['obj']); break;
