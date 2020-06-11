@@ -10,7 +10,7 @@ function HTMLpag_listarecetas(){
             $id = ObtenerId($_SESSION['email']);
             $res = mysqli_query($db,"SELECT * FROM recetas WHERE idautor='".$id."'");    //Si soy colaborador busco solo mis recetas
             $autor = $_SESSION['nombre'];
-        }
+        }       
         
         $tupla=mysqli_fetch_all($res,MYSQLI_ASSOC);
 
@@ -18,14 +18,14 @@ function HTMLpag_listarecetas(){
             <ul>";
                 for($i=0; $i < count($tupla); $i++){
                     $array_nombres[] = $tupla[$i]['nombre'];
-                    echo "<li class='botoneslista'>".$array_nombres[$i];
-                    echo $autor;
-                    echo "<form action='index.php?p=editar_receta' method='post'>";
+                    echo "<li class='botoneslista'><p>Título receta:</p><p>".$array_nombres[$i]."</p>";
+                    echo "<p>Autor:</p><p>".$autor."</p>";
+                    echo "<div><form action='index.php?p=editar_receta' method='post'>";
                     echo "<input type='submit' name='editar' value='Editar'/></form>";
                     echo "<form action='index.php?p=ver_receta' method='post'>";
                     echo "<input type='submit' name='ver' value='Ver'/></form>";
                     echo "<form action='index.php?p=borrar_receta' method='post'>";
-                    echo "<input type='submit' name='borrar' value='Borrar'/></form>";
+                    echo "<input type='submit' name='borrar' value='Borrar'/></form></div>";
                     echo "</li>";
                 }
                 
