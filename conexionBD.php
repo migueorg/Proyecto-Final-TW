@@ -55,6 +55,20 @@ function ObtenerNombre($email){
 
 }
 
+function ObtenerAutor($id){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT nombre FROM usuarios WHERE id='{$id}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $autor = $db_tupla['nombre'];
+        return $autor;
+    } else
+        return null;
+
+}
+
+
+
 function ObtenerApellidos($email){
     $db=ConectarDB();
     $res = mysqli_query($db,"SELECT apellidos FROM usuarios WHERE email='{$email}'");

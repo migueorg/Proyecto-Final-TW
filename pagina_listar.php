@@ -18,6 +18,8 @@ function HTMLpag_listarecetas(){
             <ul>";
                 for($i=0; $i < count($tupla); $i++){
                     $array_nombres[] = $tupla[$i]['nombre'];
+                    $array_autor[] = $tupla[$i]['idautor'];
+                    $autor = ObtenerAutor($array_autor[$i]);
                     echo "<li class='botoneslista'><p>Título receta:</p><p>".$array_nombres[$i]."</p>";
                     echo "<p>Autor:</p><p>".$autor."</p>";
                     echo "<div><form action='index.php?p=editar_receta' method='post'>";
