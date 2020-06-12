@@ -56,7 +56,7 @@ switch ($_GET['p']) {
     case "editar": simulaIndexEditar($_SESSION['obj_editar']); break;
     case "anadir_receta": simulaIndexAnadirReceta($_SESSION['objR']); break;
     case "gestion_usuarios": simulaIndexGestionUsuarios(); break;
-    case "ver_recetas": HTMLpag_listarecetas();break;
+    case "ver_recetas": simulaIndexListaRecetas();break;
     default: HTMLpag_inicio(); break;
 }
 

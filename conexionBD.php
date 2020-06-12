@@ -63,6 +63,7 @@ function ObtenerAutor($id){
         $autor = $db_tupla['nombre'];
         return $autor;
     } else
+    echo "NULLLL";
         return null;
 
 }
@@ -284,6 +285,31 @@ function InsertarRecetaBD(Recetas $objR){
     }else
         return null;
 
+}
+
+function MenuListar($db){
+    $tuplas=mysqli_fetch_all($db,MYSQLI_ASSOC);
+
+    echo "<div class='cuerpo'><main>
+        <ul>";
+            for($i=0; $i < count($tuplas); $i++){
+                $array_nombres[] = $tuplas[$i]['nombre'];
+                $array_autor[] = $tuplas[$i]['idautor'];
+                $autor = ObtenerAutor($array_autor[$i]);
+                echo "<li class='botoneslista'><p>Título receta:</p><p>".$array_nombres[$i]."</p>";
+                echo "<p>Autor:</p><p>".$autor."</p>";
+                echo "<div><form action='index.php?p=ver_recetas' method='post'>";
+                echo "<input type='submit' name='ver' value='Ver'/>";
+                echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
+                if( isset($_SESSION['tipo']) && $_SESSION['tipo']=='administrador' ){
+                    echo "<form action='index.php?p=editar_receta' method='post'>";
+                    echo "<input type='submit' name='editar' value='Editar'/></form>";
+                    echo "<form action='index.php?p=borrar_receta' method='post'>";
+                    echo "<input type='submit' name='borrar' value='Borrar'/></form>";
+                }
+                echo "</div></li>";
+            }
+    echo "</ul></main>";
 }
 
 ?>
