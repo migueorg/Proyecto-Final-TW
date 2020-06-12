@@ -55,7 +55,7 @@ function ObtenerNombre($email){
 
 }
 
-function ObtenerAutor($id){
+function ObtenerAutor($id){ //Obtiene el nombre según el id del autor
     $db=ConectarDB();
     $res = mysqli_query($db,"SELECT nombre FROM usuarios WHERE id='{$id}'");
     if( $res ){
@@ -65,6 +65,30 @@ function ObtenerAutor($id){
     } else
         return null;
 
+}
+
+function MenuListar($db){
+    $tuplas=mysqli_fetch_all($db,MYSQLI_ASSOC);
+
+    echo "<div class='cuerpo'><main>
+        <ul>";
+            for($i=0; $i < count($tuplas); $i++){
+                $array_nombres[] = $tuplas[$i]['nombre'];
+                $array_autor[] = $tuplas[$i]['idautor'];
+                $autor = ObtenerAutor($array_autor[$i]);
+                echo "<li class='botoneslista'><p>Título receta:</p><p>".$array_nombres[$i]."</p>";
+                echo "<p>Autor:</p><p>".$autor."</p>";
+                echo "<div><form action='index.php?p=ver_receta' method='post'>";
+                echo "<input type='submit' name='ver' value='Ver'/></form>";
+                if( isset($_SESSION['tipo']) && $_SESSION['tipo']=='administrador' ){
+                    echo "<form action='index.php?p=editar_receta' method='post'>";
+                    echo "<input type='submit' name='editar' value='Editar'/></form>";
+                    echo "<form action='index.php?p=borrar_receta' method='post'>";
+                    echo "<input type='submit' name='borrar' value='Borrar'/></form>";
+                }
+                echo "</div></li>";
+            }       
+    echo "</ul></main>";
 }
 
 
