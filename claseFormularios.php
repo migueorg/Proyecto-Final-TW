@@ -30,5 +30,7 @@ class Recetas {
     public $descripcion;
     public $ingredientes;
     public $preparacion;
+    public $confirmado;
+    public $categorias = [];
 }
 ?>

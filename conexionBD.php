@@ -43,6 +43,17 @@ function ObtenerFoto($email){
         return null;
 }
 
+function ObtenerCategoria($id){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT categoria FROM listacategorias WHERE categoria_id='{$id}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $categoria = $db_tupla['categoria'];
+        return $categoria;
+    } else
+        return null;
+}
+
 function ObtenerNombre($email){
     $db=ConectarDB();
     $res = mysqli_query($db,"SELECT nombre FROM usuarios WHERE email='{$email}'");
@@ -67,32 +78,6 @@ function ObtenerAutor($id){ //Obtiene el nombre según el id del autor
         return null;
 
 }
-
-function MenuListar($db){
-    $tuplas=mysqli_fetch_all($db,MYSQLI_ASSOC);
-
-    echo "<div class='cuerpo'><main>
-        <ul>";
-            for($i=0; $i < count($tuplas); $i++){
-                $array_nombres[] = $tuplas[$i]['nombre'];
-                $array_autor[] = $tuplas[$i]['idautor'];
-                $autor = ObtenerAutor($array_autor[$i]);
-                echo "<li class='botoneslista'><p>Título receta:</p><p>".$array_nombres[$i]."</p>";
-                echo "<p>Autor:</p><p>".$autor."</p>";
-                echo "<div><form action='index.php?p=ver_receta' method='post'>";
-                echo "<input type='submit' name='ver' value='Ver'/></form>";
-                if( isset($_SESSION['tipo']) && $_SESSION['tipo']=='administrador' ){
-                    echo "<form action='index.php?p=editar_receta' method='post'>";
-                    echo "<input type='submit' name='editar' value='Editar'/></form>";
-                    echo "<form action='index.php?p=borrar_receta' method='post'>";
-                    echo "<input type='submit' name='borrar' value='Borrar'/></form>";
-                }
-                echo "</div></li>";
-            }       
-    echo "</ul></main>";
-}
-
-
 
 function ObtenerApellidos($email){
     $db=ConectarDB();
@@ -314,8 +299,11 @@ function InsertarRecetaBD(Recetas $objR){
 function MenuListar($db){
     $tuplas=mysqli_fetch_all($db,MYSQLI_ASSOC);
 
-    echo "<div class='cuerpo'><main>
-        <ul>";
+    echo "<div class='cuerpo'><main>";
+
+    echo "<h1>Listado general de recetas</h1>";
+    
+        echo "<ul>";
             for($i=0; $i < count($tuplas); $i++){
                 $array_nombres[] = $tuplas[$i]['nombre'];
                 $array_autor[] = $tuplas[$i]['idautor'];
