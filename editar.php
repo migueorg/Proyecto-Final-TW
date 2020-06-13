@@ -444,7 +444,7 @@ function pruebaEditar(){
         $objF_edit->direccion=ObtenerDireccion($_SESSION['email']);
         $objF_edit->telefono=ObtenerTelefono($_SESSION['email']);
         $_SESSION['obj_edit'] = $objF_edit;
-        echo "holaaaaa";
+        //echo "holaaaaa";
     }//else echo "Ya esta crado el objeto";
 
     editarDatosListar($_SESSION['obj_edit']);

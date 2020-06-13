@@ -30,5 +30,8 @@ class Recetas {
     public $descripcion;
     public $ingredientes;
     public $preparacion;
+    public $editarIniciado = 'no';
+    public $confirmado;
+    public $primeraVez = 'si';
 }
 ?>

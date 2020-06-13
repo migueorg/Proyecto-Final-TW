@@ -52,7 +52,61 @@ function ObtenerNombre($email){
         return $nombre;
     } else
         return null;
+}
 
+function ObtenerNombreR($id){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT nombre FROM recetas WHERE id='{$id}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $nombre = $db_tupla['nombre'];
+        return $nombre;
+    } else
+        return null;
+}
+
+function ObtenerIdAutorR($id){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT idautor FROM recetas WHERE id='{$id}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $salida = $db_tupla['idautor'];
+        return $salida;
+    } else
+        return null;
+}
+
+function ObtenerDescripcionR($id){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT descripcion FROM recetas WHERE id='{$id}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $salida = $db_tupla['descripcion'];
+        return $salida;
+    } else
+        return null;
+}
+
+function ObtenerIngredientesR($id){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT ingredientes FROM recetas WHERE id='{$id}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $salida = $db_tupla['ingredientes'];
+        return $salida;
+    } else
+        return null;
+}
+
+function ObtenerPreparacionR($id){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT preparacion FROM recetas WHERE id='{$id}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $salida = $db_tupla['preparacion'];
+        return $salida;
+    } else
+        return null;
 }
 
 function ObtenerAutor($id){
@@ -146,6 +200,13 @@ function ConsultaGeneral($select,$where){
 function RecuperaUsuariosTmp(){
     $db=ConectarDB();
     $consultatmp = "SELECT * FROM usuarios_pendientes WHERE verificado='no'";
+    $res = mysqli_query($db,$consultatmp) or trigger_error("Query Failed! SQL: $consultatmp - Error: ".mysqli_error($db), E_USER_ERROR);
+    return $res;
+}
+
+function RecuperaUsuarios(){
+    $db=ConectarDB();
+    $consultatmp = "SELECT * FROM usuarios";
     $res = mysqli_query($db,$consultatmp) or trigger_error("Query Failed! SQL: $consultatmp - Error: ".mysqli_error($db), E_USER_ERROR);
     return $res;
 }
@@ -260,6 +321,21 @@ function ActualizarUsuarioBD(Formularios $objF){
 
 }
 
+function BorrarUsuario($id){
+    $db=conectarDB();
+    if($db){
+        $consulta="DELETE FROM usuarios WHERE id='$id'";
+
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+
+        if($res){
+            echo "<h1>Usuario borrado correctamente</h1>";
+        }else{
+            echo "<h1>Fallo al borrar</h1>";
+        }
+    } 
+}
+
 
 function InsertarRecetaBD(Recetas $objR){
     $db=conectarDB();
@@ -280,17 +356,64 @@ function InsertarRecetaBD(Recetas $objR){
             echo "<h1>Receta insertada correctamente</h1>";
         }else{
             echo "<h1>Fallo al insertar</h1>";
-
         }
     }else
         return null;
 
 }
 
+function ActualizarRecetaBD(Recetas $objR){
+    $db=conectarDB();
+    if($db){
+        $id_unico = $objR->id;//uniqid();
+        $nombre = addslashes( htmlentities( ucwords( $objR->nombre ) ) );
+        $descripcion = addslashes( htmlentities($objR->descripcion ) );
+        $ingredientes = addslashes( htmlentities($objR->ingredientes ) );
+        $preparacion = addslashes( htmlentities($objR->ingredientes ) );
+
+        $consulta=
+        "UPDATE recetas 
+        SET nombre = '$nombre',
+            descripcion = '$descripcion', 
+            ingredientes = '$ingredientes',
+            preparacion = '$preparacion'
+            WHERE id = '$id_unico'";
+
+
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+        
+        if($res){
+            echo "<h1>Receta actualizada correctamente</h1>";
+        }else{
+            echo "<h1>Fallo al actualizar</h1>";
+            
+        }
+    }else
+        return null;
+
+}
+
+function BorrarReceta($idReceta){
+
+    $db=conectarDB();
+    if($db){
+
+        $consulta="DELETE FROM recetas WHERE id='$idReceta' ";
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+
+        if($res){
+            echo "<h1>Receta borrada correctamente</h1>";
+        }else{
+            echo "<h1>Fallo al borrar</h1>";
+        }
+    }
+
+}
+
 function MenuListar($db){
     $tuplas=mysqli_fetch_all($db,MYSQLI_ASSOC);
 
-    echo "<div class='cuerpo'><main>
+    echo "
         <ul>";
             for($i=0; $i < count($tuplas); $i++){
                 $array_nombres[] = $tuplas[$i]['nombre'];
@@ -303,13 +426,15 @@ function MenuListar($db){
                 echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
                 if( isset($_SESSION['tipo']) && $_SESSION['tipo']=='administrador' ){
                     echo "<form action='index.php?p=editar_receta' method='post'>";
-                    echo "<input type='submit' name='editar' value='Editar'/></form>";
-                    echo "<form action='index.php?p=borrar_receta' method='post'>";
-                    echo "<input type='submit' name='borrar' value='Borrar'/></form>";
+                    echo "<input type='submit' name='editar' value='Editar'/>";
+                    echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
+                    echo "<form action='index.php?p=ver_recetas' method='post'>";
+                    echo "<input type='submit' name='borrar' value='Borrar'/>";
+                    echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
                 }
                 echo "</div></li>";
             }
-    echo "</ul></main>";
+    echo "</ul>";
 }
 
 ?>

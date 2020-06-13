@@ -1,7 +1,7 @@
 <?php
 require_once("conexionBD.php");
 function HTMLmostar_receta($id){
-    echo "<div class='cuerpo'><main>";
+    //echo "<div class='cuerpo'><main>";
     $db = ConectarDB();
     $res = mysqli_query($db,"SELECT * FROM recetas WHERE id='$id'");
 
@@ -53,5 +53,5 @@ function HTMLmostar_receta($id){
         }   
     }
 
-        echo "</main>";
+        //echo "</main>";
 }
