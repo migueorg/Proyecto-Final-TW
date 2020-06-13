@@ -55,11 +55,14 @@ function formularioAnadirBase(Recetas &$objR){
     $db = conectarDB();
     $res = mysqli_query($db,"SELECT * FROM listacategorias");
     $tuplas=mysqli_fetch_all($res,MYSQLI_ASSOC);
-    for($i=0; $i < count($tuplas); $i++){
-        echo "<p>".$tuplas[$i]['categoria']."<input type='checkbox' name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']."'/></p>";
-        echo "<p><input type='hidden' name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']."'/></p>";
-    }
     
+    for($i=0; $i < count($tuplas); $i++){
+        if( isset( $objR->categorias[$i] ) && $tuplas[$i]['categoria'] == ObtenerCategoria( $objR->categorias[$i] ) ){
+            echo "<p>".$tuplas[$i]['categoria']."<input type='checkbox' checked name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']." '/></p>";
+            echo "<p><input type='hidden' name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']."'/></p>";
+        }else
+            echo "<p>".$tuplas[$i]['categoria']."<input type='checkbox' name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']."'/></p>";
+    }
     
     //Cierre y botones
     echo"  <p>
@@ -115,9 +118,14 @@ function saneaDatosReceta(Recetas &$objR){
     }
 
     //Compruebo las categorias
-    for($i=0; $i < count($objR->categorias); $i++){
-        if( !empty( $_POST[ $tuplas[$i]['categoria'] ] ) )
-            $objR->categorias[ $_POST[ $tuplas[$i]['categoria_id'] ] ];
+    $db = conectarDB();
+    $res = mysqli_query($db,"SELECT * FROM listacategorias");
+    $tuplas=mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+    for($i=0; $i < count($tuplas); $i++){
+        if( isset( $_POST[ $tuplas[$i]['categoria'] ] ) && ($_POST[ $tuplas[$i]['categoria'] ]) != '' ){
+            $objR->categorias[] = $tuplas[$i]['categoria_id'];
+        }
     }
 
 }
@@ -155,11 +163,8 @@ function confirmaDatosReceta(Recetas &$objR){
         <input type='submit' value='Cancelar' />
     </form>";
 
-    if(isset($objR->categorias)){
-        for($i=0; $i < count($objR->categorias); $i++){
-            if(!empty($objR->categorias[$i]))
-                echo "<p>".ObtenerCategoria($objR->categorias[$i]).":<input type='checkbox' checked/></p>";
-        }
+    for($i=0; $i < count($objR->categorias); $i++){
+        echo "<p>".ObtenerCategoria($objR->categorias[$i]).":<input type='checkbox' checked/></p>";
     }
 
 }
