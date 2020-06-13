@@ -16,6 +16,7 @@ if(isset($_POST['login'])){
                 $_SESSION['nombre']=ObtenerNombre($email);
                 $_SESSION['foto']=ObtenerFoto($email);
                 $_SESSION['tipo']=ObtenerTipoUsuario($email);
+                $_SESSION['id']=ObtenerId($email);
             } else
                 $_SESSION['incorrecto'] = true;
         } else{

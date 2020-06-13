@@ -11,6 +11,15 @@ function HTMLpag_listarecetas(){
     }
 }
 
+function HTMLpag_listaMisRecetas(){
+    $id = $_SESSION['id'];
+    $db = ConectarDB();    
+    if($db){
+        $res = mysqli_query($db,"SELECT * FROM recetas WHERE idautor='$id'");
+        MenuListar($res);
+    }
+}
+
 
 function formularioEditarRecetaBase(Recetas &$objR){
     $objR->primeraVez = "no";
@@ -179,4 +188,24 @@ function simulaIndexListaRecetas(){
 
     echo "</main>";
 }
+
+function simulaIndexListaMisRecetas(){
+    echo "<div class='cuerpo'><main>";
+
+    if(isset($_POST['ver'])){
+
+        HTMLmostar_receta($_POST['idReceta']);
+
+    }else if(isset($_POST['borrar'])){
+
+        BorrarReceta($_POST['idReceta']);
+        HTMLpag_listaMisRecetas();
+
+    }else{
+        HTMLpag_listaMisRecetas();
+    }
+
+    echo "</main>";
+}
+
 ?>

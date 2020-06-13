@@ -8,6 +8,7 @@ function HTMLmostar_receta($id){
     if($res){
         while($tupla=mysqli_fetch_array($res)){    
             $autor = ObtenerAutor($tupla['idautor']);
+            $idReceta = $tupla['id'];
             echo "
                     <section class='titulopequeño'>
                     <section class='titulo'>
@@ -48,10 +49,22 @@ function HTMLmostar_receta($id){
                                 echo "<li>".$i."</li>";
                             }
 
-                         echo "</ol>";
+                    echo "</ol>
+                    </section>";
+
+                    echo "<section class='comentarios'>
+                        <h1>Zona de Comentarios:</h1>";
+                    listaComentariosReceta($idReceta); 
+                    echo"<form action='index.php?p=nuevo_coment' method='post'>
+                            <input type='submit' name='comentar' value='Comentar' />
+                            <input name='idReceta' type='hidden' value='$idReceta'>
+                        </form>
+                    </section>";
                     
         }   
     }
 
         //echo "</main>";
 }
+
+?>

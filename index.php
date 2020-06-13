@@ -12,6 +12,7 @@ require_once "editar.php";
 require_once "anadir_receta.php";
 require_once "gestionUsuarios.php";
 require_once "pagina_listar.php";
+require_once "comentarios.php";
 
 if(session_status()==PHP_SESSION_NONE)
 session_start();
@@ -58,6 +59,8 @@ switch ($_GET['p']) {
     case "gestion_usuarios": simulaIndexGestionUsuarios(); break;
     case "ver_recetas": simulaIndexListaRecetas();break;
     case "editar_receta": simulaIndexEditarReceta($_SESSION['objR']);break;
+    case "ver_mis_recetas": simulaIndexListaMisRecetas(); break;
+    case "nuevo_coment": simulaIndexComentario(); break;
     default: HTMLpag_inicio(); break;
 }
 
