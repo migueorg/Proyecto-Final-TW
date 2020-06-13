@@ -43,6 +43,17 @@ function ObtenerFoto($email){
         return null;
 }
 
+function ObtenerCategoria($id){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT categoria FROM listacategorias WHERE categoria_id='{$id}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $categoria = $db_tupla['categoria'];
+        return $categoria;
+    } else
+        return null;
+}
+
 function ObtenerNombre($email){
     $db=ConectarDB();
     $res = mysqli_query($db,"SELECT nombre FROM usuarios WHERE email='{$email}'");
@@ -109,7 +120,7 @@ function ObtenerPreparacionR($id){
         return null;
 }
 
-function ObtenerAutor($id){
+function ObtenerAutor($id){ //Obtiene el nombre según el id del autor
     $db=ConectarDB();
     $res = mysqli_query($db,"SELECT nombre FROM usuarios WHERE id='{$id}'");
     if( $res ){
@@ -121,8 +132,6 @@ function ObtenerAutor($id){
         return null;
 
 }
-
-
 
 function ObtenerApellidos($email){
     $db=ConectarDB();
@@ -413,8 +422,11 @@ function BorrarReceta($idReceta){
 function MenuListar($db){
     $tuplas=mysqli_fetch_all($db,MYSQLI_ASSOC);
 
-    echo "
-        <ul>";
+    echo "<div class='cuerpo'><main>";
+
+    echo "<h1>Listado general de recetas</h1>";
+    
+        echo "<ul>";
             for($i=0; $i < count($tuplas); $i++){
                 $array_nombres[] = $tuplas[$i]['nombre'];
                 $array_autor[] = $tuplas[$i]['idautor'];

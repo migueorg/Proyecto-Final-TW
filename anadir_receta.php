@@ -1,5 +1,6 @@
 <?php
 require_once("conexionBD.php");
+require_once "conexionBD.php";
 function formularioAnadirBase(Recetas &$objR){
 
     //Principio Formulario
@@ -11,18 +12,19 @@ function formularioAnadirBase(Recetas &$objR){
         echo " value='".$objR->nombre."' size='40'></p>";
     }
     else if(isset($objR->hayerror) && array_key_exists('nombre', $objR->hayerror)){
-        echo "size='40'></p>";
+        echo " size='40'></p>";
         echo $objR->hayerror['nombre'];
     }
-    else echo "size='40'></p>";
+    else echo " size='40'></p>";
+
 
     //Descripcion
     echo "<p>Descripción: <textarea name='descripcion' rows='4' cols='40'";
     if(isset($objR->descripcion)){
-        echo " value='".$objR->descripcion."' size='40'></p>";
+        echo "size='40'>".$objR->descripcion."</textarea></p>";
     }
     else if(isset($objR->hayerror) && array_key_exists('descripcion', $objR->hayerror)){
-        echo "size='40'></p>";
+        echo "size='40'></textarea></p>";
         echo $objR->hayerror['descripcion'];
     }
     else echo "size='short'></textarea></p>";
@@ -30,10 +32,10 @@ function formularioAnadirBase(Recetas &$objR){
     //Ingredientes
     echo "<p>Ingredientes: <textarea name='ingredientes' rows='4' cols='40'";
     if(isset($objR->ingredientes)){
-        echo " value='".$objR->ingredientes."' size='40'></p>";
+        echo "size='40'>".$objR->ingredientes."</textarea></p>";
     }
     else if(isset($objR->hayerror) && array_key_exists('ingredientes', $objR->hayerror)){
-        echo "size='40'></p>";
+        echo "size='40'></textarea></p>";
         echo $objR->hayerror['ingredientes'];
     }
     else echo "size='short'></textarea></p>";
@@ -41,14 +43,24 @@ function formularioAnadirBase(Recetas &$objR){
     //Preparacion
     echo "<p>Preparación: <textarea name='preparacion' rows='4' cols='40'";
     if(isset($objR->preparacion)){
-        echo " value='".$objR->preparacion."' size='40'></p>";
+        echo "size='40'>".$objR->preparacion."</textarea></p>";
     }
     else if(isset($objR->hayerror) && array_key_exists('preparacion', $objR->hayerror)){
-        echo "size='40'></p>";
+        echo "size='40'></textarea></p>";
         echo $objR->hayerror['preparacion'];
     }
     else echo "size='short'></textarea></p>";
 
+    //Categorias
+    $db = conectarDB();
+    $res = mysqli_query($db,"SELECT * FROM listacategorias");
+    $tuplas=mysqli_fetch_all($res,MYSQLI_ASSOC);
+    for($i=0; $i < count($tuplas); $i++){
+        echo "<p>".$tuplas[$i]['categoria']."<input type='checkbox' name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']."'/></p>";
+        echo "<p><input type='hidden' name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']."'/></p>";
+    }
+    
+    
     //Cierre y botones
     echo"  <p>
         <input type='submit' value='Añadir Receta'>
@@ -64,6 +76,10 @@ function muestraDatosReceta(Recetas $objR){
     echo "<p>Descripción: ".$objR->descripcion."</p>";
     echo "<p>Ingredientes: ".$objR->ingredientes."</p>";
     echo "<p>Preparación: ".$objR->preparacion."</p>";
+    echo "<p>Categorías: ";
+    for($i=0; $i < count($objR->categorias); $i++)
+        echo ObtenerCategoria($objR->categorias[$i]).",";
+    echo "</p>";
 }
 
 function saneaDatosReceta(Recetas &$objR){
@@ -98,6 +114,12 @@ function saneaDatosReceta(Recetas &$objR){
         $objR->preparacion = $_POST['preparacion'];
     }
 
+    //Compruebo las categorias
+    for($i=0; $i < count($objR->categorias); $i++){
+        if( !empty( $_POST[ $tuplas[$i]['categoria'] ] ) )
+            $objR->categorias[ $_POST[ $tuplas[$i]['categoria_id'] ] ];
+    }
+
 }
 
 function confirmaDatosReceta(Recetas &$objR){
@@ -111,15 +133,17 @@ function confirmaDatosReceta(Recetas &$objR){
 
     //Descripcion
     echo "<p>Descripción: <textarea name='descripcion'
-    rows='4' cols='40' value='".$objR->descripcion."' size='40'></p>";
+    rows='4' cols='40' size='40'>".$objR->descripcion."</textarea></p>";
 
     //Ingredientes
     echo "<p>Preparación: <textarea name='preparacion'
-    rows='4' cols='40' value='".$objR->preparacion."' size='40'></p>";
+    rows='4' cols='40' size='40'>".$objR->preparacion."</textarea></p>";
 
     //Ingredientes
     echo "<p>Ingredientes: <textarea name='ingredientes'
-    rows='4' cols='40' value='".$objR->ingredientes."' size='40'></p>";
+    rows='4' cols='40' size='40'>".$objR->ingredientes."</textarea></p>";
+
+
 
     //Cierre y botones
     echo"  <p>
@@ -130,6 +154,13 @@ function confirmaDatosReceta(Recetas &$objR){
     <form action='index.php'>
         <input type='submit' value='Cancelar' />
     </form>";
+
+    if(isset($objR->categorias)){
+        for($i=0; $i < count($objR->categorias); $i++){
+            if(!empty($objR->categorias[$i]))
+                echo "<p>".ObtenerCategoria($objR->categorias[$i]).":<input type='checkbox' checked/></p>";
+        }
+    }
 
 }
 

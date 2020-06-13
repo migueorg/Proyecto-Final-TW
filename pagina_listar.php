@@ -3,7 +3,7 @@ require_once("conexionBD.php");
 require_once("muestra_receta.php");
 
 function HTMLpag_listarecetas(){
-    
+
     $db = ConectarDB();    
     if($db){
         $res = mysqli_query($db,"SELECT * FROM recetas ");
