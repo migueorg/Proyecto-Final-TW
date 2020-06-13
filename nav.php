@@ -4,7 +4,7 @@ echo <<< HTML
 <nav>
 HTML;
 $items = ["Inicio", "Listado de Recetas", "Registrar Usuario"]; //texto
-$links = ["inicio", "ver_listado", "registrar"]; //url
+$links = ["inicio", "ver_recetas", "registrar"]; //url
 foreach ($items as $k => $v)
 echo "<li>"."<a href='index.php?p=".$links[$k]."'>".$v."</a></li>";
 if(isset($_SESSION['tipo'])){

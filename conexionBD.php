@@ -422,8 +422,6 @@ function BorrarReceta($idReceta){
 function MenuListar($db){
     $tuplas=mysqli_fetch_all($db,MYSQLI_ASSOC);
 
-    echo "<div class='cuerpo'><main>";
-
     echo "<h1>Listado general de recetas</h1>";
     
         echo "<ul>";
