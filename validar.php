@@ -16,8 +16,13 @@ if(isset($_POST['login'])){
                 $_SESSION['nombre']=ObtenerNombre($email);
                 $_SESSION['foto']=ObtenerFoto($email);
                 $_SESSION['tipo']=ObtenerTipoUsuario($email);
-            } else
+                $evento_log = "El usuario ".$email." se ha logueado";
+                InsertarLog($evento_log);
+            } else{
                 $_SESSION['incorrecto'] = true;
+                $evento_log = "El usuario ".$email." se ha logueado sin éxito";
+                InsertarLog($evento_log);
+            }
         } else{
             $_SESSION['rellenar'] = true;
         }
@@ -26,7 +31,9 @@ if(isset($_POST['login'])){
 else{
     // La sesión debe estar iniciada
     if (session_status()==PHP_SESSION_NONE)
-    session_start();     //No podemos borrar una variable que no existe, por si acaso la creo y la borro
+    session_start(); 
+    $evento_log = "El usuario ".$_SESSION['email']." ha salido del sistema";
+    InsertarLog($evento_log);
     // Borrar variables de sesión
     //$_SESSION = array();
     session_unset();

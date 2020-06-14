@@ -31,9 +31,9 @@ class Recetas {
     public $ingredientes;
     public $preparacion;
     public $editarIniciado = 'no';
-    //public $confirmado;
-    public $primeraVez = 'si';
     public $confirmado;
-    public $categorias = [];
+    public $primeraVez = 'si';
+    //public $confirmado;
+    public $categorias = array();
 }
 ?>

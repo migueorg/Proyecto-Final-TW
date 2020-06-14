@@ -55,11 +55,19 @@ function formularioAnadirBase(Recetas &$objR){
     $db = conectarDB();
     $res = mysqli_query($db,"SELECT * FROM listacategorias");
     $tuplas=mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+    for( $i = 0; $i < count($tuplas); $i++){
+        if(isset($_POST[ $tuplas[$i]['categoria'] ]) && empty( $_POST[ $tuplas[$i]['categoria'] ] ) ){
+            echo $tuplas[$i]['categoria'];
+            unset($_POST[ $tuplas[$i]['categoria'] ]);
+        }
+    }
     
     for($i=0; $i < count($tuplas); $i++){
-        if( isset( $objR->categorias[$i] ) && $tuplas[$i]['categoria'] == ObtenerCategoria( $objR->categorias[$i] ) ){
-            echo "<p>".$tuplas[$i]['categoria']."<input type='checkbox' checked name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']." '/></p>";
-            echo "<p><input type='hidden' name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']."'/></p>";
+        if( isset($_POST[ $tuplas[$i]['categoria'] ]) && $_POST[ $tuplas[$i]['categoria'] ] != ''){
+            echo "<p>".$_POST[ $tuplas[$i]['categoria']]."<input type='checkbox' checked name='".$_POST[ $tuplas[$i]['categoria']]."' value='".$_POST[ $tuplas[$i]['categoria']]." '/></p>";
+            //echo "<p><input type='hidden' name='".$_POST[ $tuplas[$i]['categoria']]."' value='".$_POST[ $tuplas[$i]['categoria']]."'/></p>";
+            
         }else
             echo "<p>".$tuplas[$i]['categoria']."<input type='checkbox' name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']."'/></p>";
     }
@@ -80,9 +88,11 @@ function muestraDatosReceta(Recetas $objR){
     echo "<p>Ingredientes: ".$objR->ingredientes."</p>";
     echo "<p>Preparación: ".$objR->preparacion."</p>";
     echo "<p>Categorías: ";
-    for($i=0; $i < count($objR->categorias); $i++)
+    print_r(array_values($objR->categorias));
+    for($i=0; $i < count($objR->categorias); $i++){
         echo ObtenerCategoria($objR->categorias[$i]).",";
     echo "</p>";
+    }
 }
 
 function saneaDatosReceta(Recetas &$objR){
@@ -117,16 +127,9 @@ function saneaDatosReceta(Recetas &$objR){
         $objR->preparacion = $_POST['preparacion'];
     }
 
-    //Compruebo las categorias
     $db = conectarDB();
     $res = mysqli_query($db,"SELECT * FROM listacategorias");
     $tuplas=mysqli_fetch_all($res,MYSQLI_ASSOC);
-
-    for($i=0; $i < count($tuplas); $i++){
-        if( isset( $_POST[ $tuplas[$i]['categoria'] ] ) && ($_POST[ $tuplas[$i]['categoria'] ]) != '' ){
-            $objR->categorias[] = $tuplas[$i]['categoria_id'];
-        }
-    }
 
 }
 
@@ -151,6 +154,24 @@ function confirmaDatosReceta(Recetas &$objR){
     echo "<p>Ingredientes: <textarea name='ingredientes'
     rows='4' cols='40' size='40'>".$objR->ingredientes."</textarea></p>";
 
+    $db = conectarDB();
+    $res = mysqli_query($db,"SELECT * FROM listacategorias");
+    $tuplas=mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+    echo "<p>Categorías: </p>";
+    for( $i = 0; $i < count($tuplas); $i++){
+        if( isset( $_POST[ $tuplas[$i]['categoria'] ] ) && !empty( $_POST[ $tuplas[$i]['categoria'] ] ) ){
+            echo "<p>".$tuplas[$i]['categoria']."<input type='checkbox' disabled checked name='".$tuplas[$i]['categoria']."' value='".$tuplas[$i]['categoria']." '/></p>";
+            echo "<p><input type='hidden' name='".$_POST[ $tuplas[$i]['categoria']]."' value='".$_POST[ $tuplas[$i]['categoria']]."'/></p>";
+        }
+    }
+
+    //Asigno valores a las categorias
+    for( $i = 0; $i < count($tuplas); $i++){
+        if(isset($_POST[ $tuplas[$i]['categoria'] ]) && !empty( $_POST[ $tuplas[$i]['categoria'] ] ) ){
+            $objR->categorias[] = $tuplas[$i]['categoria_id'];
+        }
+    }
 
 
     //Cierre y botones
@@ -163,9 +184,7 @@ function confirmaDatosReceta(Recetas &$objR){
         <input type='submit' value='Cancelar' />
     </form>";
 
-    for($i=0; $i < count($objR->categorias); $i++){
-        echo "<p>".ObtenerCategoria($objR->categorias[$i]).":<input type='checkbox' checked/></p>";
-    }
+    
 
 }
 

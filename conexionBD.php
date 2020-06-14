@@ -359,6 +359,15 @@ function InsertarRecetaBD(Recetas $objR){
         $consulta="INSERT INTO recetas (id, idautor, nombre, descripcion, ingredientes, preparacion) VALUES ('$id_unico', '$id_autor','$nombre','$descripcion'
         ,'$ingredientes','$preparacion')";
 
+        for($i=0; $i < $objR->categorias; $i++){
+            $categoria_id = $objR->categorias[$i];
+            $consulta_categorias="INSERT INTO categorias (receta_id, categoria_id) VALUES ('$id_unico', '$categoria_id')";
+            $res = mysqli_query($db,$consulta_categorias);
+            if(!$res){
+                echo "<h1>Fallo al insertar</h1>";
+            }
+        }
+
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
 
         if($res){
@@ -369,6 +378,34 @@ function InsertarRecetaBD(Recetas $objR){
     }else
         return null;
 
+}
+
+function InsertarLog($evento){
+    $db=conectarDB();
+    if($db){
+        $fecha = date('l jS \of F Y h:i:s A');
+
+        $consulta="INSERT INTO log (fecha, descripcion) VALUES ('$fecha', '$evento')";
+
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+
+    }else
+        return null;
+
+}
+
+function MenuListarLog(){
+    $db = ConectarDB();
+    $res = mysqli_query($db,"SELECT * FROM log ");
+    $tuplas=mysqli_fetch_all($res,MYSQLI_ASSOC);
+    echo "<div class='cuerpo'><main><h1>Log del sistema</h1><ul>";
+        for($i=0; $i < count($tuplas); $i++){
+            echo "<li class='botoneslista'>";
+            echo "<p>".$tuplas[$i]['fecha']."</p>";
+            echo "<p>".$tuplas[$i]['descripcion']."</p>";
+            echo "</li>";
+        }
+    echo "</ul></main>";
 }
 
 function ActualizarRecetaBD(Recetas $objR){

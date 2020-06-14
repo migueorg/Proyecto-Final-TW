@@ -155,6 +155,7 @@ aside label{
     display: flex;
     justify-self: center;
     align-self: center;
+    width:80%;
 }
 
 .lateral form{
