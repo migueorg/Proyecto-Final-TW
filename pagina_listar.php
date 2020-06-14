@@ -76,6 +76,11 @@ function formularioEditarRecetaBase(Recetas &$objR){
       </p>
     </form>";
 
+    echo "<form action='index.php?p=inserta_imagen' method='post'>
+        <input type='submit' value='Insertar Imágenes' />
+        <input name='idReceta' type='hidden' value='$objR->id'>
+    </form>";
+
 }
 
 function confirmaEditarDatosReceta(Recetas &$objR){

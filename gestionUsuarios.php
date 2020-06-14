@@ -84,6 +84,7 @@ function switchCaseAdmin($entrada){
         case "ver_mis_recetas": simulaIndexListaMisRecetas(); break;
         case "nuevo_coment": simulaIndexComentario(); break;
         case "inicializa_editar": inicializaYRedirigeEditar(); break;
+        case "inserta_imagen": simulaIndexInsertaImagenes(); break;
         default: HTMLpag_inicio(); break;
     }
 }
@@ -107,6 +108,7 @@ function switchCaseColab($entrada){
         case "editar_receta": simulaIndexEditarReceta($_SESSION['objR']);break;
         case "ver_mis_recetas": simulaIndexListaMisRecetas(); break;
         case "nuevo_coment": simulaIndexComentario(); break;
+        case "inserta_imagen": simulaIndexInsertaImagenes(); break;
         default: HTMLpag_inicio(); break;
     }
 }

@@ -23,6 +23,8 @@ function HTMLmostar_receta($id){
                     <section class='info'><p>
                     
                         {$tupla['descripcion']}";
+
+                        obtenFotoTitulo($idReceta);
                     /*
                         $foto = $tupla['Fotografía'];
                         echo "</p><img src='data:image/jpg;base64, ";
@@ -51,6 +53,10 @@ function HTMLmostar_receta($id){
 
                     echo "</ol>
                     </section>";
+
+                    echo "<section class='fotos'>";
+                    obtenFotosRecetaMain($idReceta);
+                    echo "</section>";
 
                     echo "<section class='comentarios'>
                         <h1>Zona de Comentarios:</h1>";

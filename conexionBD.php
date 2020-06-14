@@ -261,7 +261,7 @@ function InsertarUsuarioBD(Formularios $objF){
         $telefono = addslashes( htmlentities( ucwords( $objF->telefono ) ) );
         
         $consulta="INSERT INTO usuarios (id, nombre, apellidos, email, password, tipo, foto, direccion, telefono) VALUES ('$id_unico','$nombre','$apellido'
-        ,'$correo','$clave','colaborrador', '$fotillo', '$direccion', '$telefono')";
+        ,'$correo','$clave','colaborador', '$fotillo', '$direccion', '$telefono')";
         //Los usuarios registrados siempre van a entrar como colaboradores
         
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
@@ -566,6 +566,79 @@ function borrarComentario($idComentario){
             echo "<h1>Fallo al borrar</h1>";
         }
     }
+}
+
+
+function obtenFotosReceta($idReceta){
+    $db=conectarDB();
+    if($db){
+        $res = mysqli_query($db,"SELECT imagen FROM fotos WHERE idreceta='$idReceta'");
+
+        if($res){
+            while($tupla=mysqli_fetch_array($res)){
+                echo "<section class='foto'>";
+                echo "<img src='data:image/jpg;base64, ";
+                echo base64_encode($tupla['imagen']);
+                echo "'width='200' />";
+                //Mas adelante aqui va el boton borrar
+                //Para discriminar de cuando las estas añadiendo puedes usar un if con algun post
+            }
+        }
+
+    }
+
+}
+
+function obtenFotosRecetaMain($idReceta){
+    $db=conectarDB();
+    if($db){
+        $res = mysqli_query($db,"SELECT imagen FROM fotos WHERE idreceta='$idReceta'");
+
+        if($res){
+            $tupla=mysqli_fetch_array($res);
+            while($tupla=mysqli_fetch_array($res)){
+                echo "<section class='foto'>";
+                echo "<img src='data:image/jpg;base64, ";
+                echo base64_encode($tupla['imagen']);
+                echo "'width='200' />";
+            }
+        }
+
+    }
+
+}
+
+function obtenFotoTitulo($idReceta){
+    $db=conectarDB();
+    if($db){
+        $res = mysqli_query($db,"SELECT imagen FROM fotos WHERE idreceta='$idReceta'");
+
+        if($res){
+            $tupla=mysqli_fetch_array($res);
+            echo "<section class='foto'>";
+            echo "<img src='data:image/jpg;base64, ";
+            echo base64_encode($tupla['imagen']);
+            echo "'width='200' />";
+            
+        }
+
+    }
+}
+
+function insertaFotosReceta($idReceta,$foto){
+    $db=conectarDB();
+    if($db){
+
+        $consulta="INSERT INTO fotos (idreceta, imagen) VALUES ('$idReceta','$foto')";
+
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+
+        if($res){
+            //echo "Okay";
+        }
+
+    }
+
 }
 
 ?>

@@ -15,6 +15,7 @@ require_once "gestionUsuarios.php";
 require_once "pagina_listar.php";
 require_once "log.php";
 require_once "comentarios.php";
+require_once "insertar_imagenes.php";
 
 if(session_status()==PHP_SESSION_NONE)
 session_start();
