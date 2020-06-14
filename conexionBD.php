@@ -10,6 +10,17 @@ function ConectarDB(){
         return $db;
 }
 
+function ObtenerEmailConID($idusuario){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT email FROM usuarios WHERE id='{$idusuario}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $id = $db_tupla['email'];
+        return $id;
+    } else
+        return null;
+}
+
 function ObtenerId($email){
     $db=ConectarDB();
     $res = mysqli_query($db,"SELECT id FROM usuarios WHERE email='{$email}'");

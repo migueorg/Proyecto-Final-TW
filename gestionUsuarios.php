@@ -40,6 +40,12 @@ function muestraDefinitivos(){
                     <input type='submit' name='Borrar' value='Borrar' />
                     <input name='idUsuario' type='hidden' value='{$tupla['id']}'>
                 </form>";
+                
+                echo "
+                <form action='index.php?p=inicializa_editar' method='post'>
+                    <input type='submit' name='Editar' value='Editar' />
+                    <input name='idUsuario' type='hidden' value='{$tupla['id']}'>
+                </form>";
             }
         }
     }
