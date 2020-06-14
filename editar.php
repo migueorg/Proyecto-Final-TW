@@ -2,6 +2,7 @@
 
 require_once "registrar.php";
 require_once "conexionBD.php";
+require_once "claseFormularios.php";
 
 
 
@@ -444,7 +445,6 @@ function pruebaEditar(){
         $objF_edit->direccion=ObtenerDireccion($_SESSION['email']);
         $objF_edit->telefono=ObtenerTelefono($_SESSION['email']);
         $_SESSION['obj_edit'] = $objF_edit;
-        //echo "holaaaaa";
     }//else echo "Ya esta crado el objeto";
 
     editarDatosListar($_SESSION['obj_edit']);
@@ -496,6 +496,28 @@ function forzarCierreSesion(){
     session_destroy();
 }
 
+function inicializaYRedirigeEditar(){
+    $idusuario = $_POST['idUsuario'];
+    $email = ObtenerEmailConID($idusuario);
+
+    $obj_editar = new Formularios;
+
+    $obj_editar->id=$idusuario;
+    $obj_editar->nombre=ObtenerNombre($email);
+    $obj_editar->apellidos=ObtenerApellidos($email);
+    $obj_editar->correo=$email;
+    $obj_editar->foto=ObtenerFoto($email);
+    $obj_editar->tipo=ObtenerTipoUsuario($email);
+    $obj_editar->direccion=ObtenerDireccion($email);
+    $obj_editar->telefono=ObtenerTelefono($email);
+    $obj_editar->editarIniciado = 'si';
+    $obj_editar->usuarioAjeno = 'si';
+
+    $_SESSION['obj_editar'] = $obj_editar;
+
+    simulaIndexEditar($_SESSION['obj_editar']);
+}
+
 
 
 
@@ -523,7 +545,9 @@ function simulaIndexEditar(Formularios &$objF){
         ActualizarUsuarioBD($objF);
         muestraDatosEditar($objF);
         unset($_SESSION['obj_edit']);
-        forzarCierreSesion();
+        if($objF->usuarioAjeno == 'no'){
+            forzarCierreSesion();
+        }
             
 
     }else if(isset($_SESSION['obj_editar']) 

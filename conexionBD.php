@@ -10,6 +10,17 @@ function ConectarDB(){
         return $db;
 }
 
+function ObtenerEmailConID($idusuario){
+    $db=ConectarDB();
+    $res = mysqli_query($db,"SELECT email FROM usuarios WHERE id='{$idusuario}'");
+    if( $res ){
+        $db_tupla = mysqli_fetch_assoc($res);
+        $id = $db_tupla['email'];
+        return $id;
+    } else
+        return null;
+}
+
 function ObtenerId($email){
     $db=ConectarDB();
     $res = mysqli_query($db,"SELECT id FROM usuarios WHERE email='{$email}'");
@@ -482,6 +493,79 @@ function MenuListar($db){
                 echo "</div></li>";
             }
     echo "</ul>";
+}
+
+function insertaComentario($mensaje,$idReceta){
+    $db=conectarDB();
+    if($db){
+
+        $idComentario = uniqid();
+        $idAutor = $_SESSION['id'];
+        $nombre = $_SESSION['nombre'];
+        //$mensaje = $_POST['mensaje'];
+        //$idReceta = $_POST['idreceta'];
+
+        $consulta="INSERT INTO comentarios (idcomentario,idautor,nombre,mensaje,idreceta) 
+                    VALUES ('$idComentario','$idAutor','$nombre','$mensaje','$idReceta') ";
+        
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+
+        if($res){
+            echo "<h1>Comentario añadido correctamente</h1>";
+        }else{
+            echo "<h1>Fallo al comentar</h1>";
+        }
+    }
+}
+
+function listaComentariosReceta($idReceta){
+    $db=conectarDB();
+    if($db){
+        $res = mysqli_query($db,"SELECT * FROM comentarios WHERE idreceta='$idReceta'");
+        
+        if($res){
+            while ($tupla=mysqli_fetch_array($res)){
+                echo "<h2>Comentario:</h2>";
+                echo "<p>Usuario: {$tupla['nombre']}</p>";
+                echo "<p>Comentario: {$tupla['mensaje']}</p>";
+                if(isset($_SESSION['tipo'])){
+                    if($_SESSION['tipo'] == 'administrador' || $_SESSION['id'] == $tupla['idautor']){
+                        $idComentario = $tupla['idcomentario'];
+                        echo"<form action='index.php?p=nuevo_coment' method='post'>
+                        <input type='submit' name='borrar' value='Borrar Comentario' />
+                        <input name='idComentario' type='hidden' value='$idComentario'>
+                        </form>";
+                    }
+                }
+            }
+        }
+    }
+}
+
+function obtenerComentario($idComentario){
+    $db=conectarDB();
+    $salida = null;
+    if($db){
+        $res = mysqli_query($db,"SELECT * FROM comentarios WHERE idcomentario='$idComentario'");
+        
+        if($res){
+            $salida = mysqli_fetch_assoc($res);
+        }
+    }
+    return $salida;
+}
+
+function borrarComentario($idComentario){
+    $db=conectarDB();
+    if($db){
+        $res = mysqli_query($db,"DELETE FROM comentarios WHERE idcomentario='$idComentario'");
+        
+        if($res){
+            echo "<h1>Comentario Borrado Correctamente</h1>";
+        }else{
+            echo "<h1>Fallo al borrar</h1>";
+        }
+    }
 }
 
 ?>

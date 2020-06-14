@@ -18,7 +18,8 @@ if(isset($_POST['login'])){
                 $_SESSION['tipo']=ObtenerTipoUsuario($email);
                 $evento_log = "El usuario ".$email." se ha logueado";
                 InsertarLog($evento_log);
-            } else{
+            } else
+                $_SESSION['id']=ObtenerId($email);
                 $_SESSION['incorrecto'] = true;
                 $evento_log = "El usuario ".$email." se ha logueado sin éxito";
                 InsertarLog($evento_log);

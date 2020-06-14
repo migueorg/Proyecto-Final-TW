@@ -21,6 +21,8 @@ class Formularios {
 
     public $editarIniciado = 'no';
     public $modificaFoto;
+
+    public $usuarioAjeno = 'no';
 }
 
 class Recetas {
