@@ -370,7 +370,7 @@ function InsertarRecetaBD(Recetas $objR){
         $consulta="INSERT INTO recetas (id, idautor, nombre, descripcion, ingredientes, preparacion) VALUES ('$id_unico', '$id_autor','$nombre','$descripcion'
         ,'$ingredientes','$preparacion')";
 
-        for($i=0; $i < $objR->categorias; $i++){
+        for($i=0; $i < count($objR->categorias); $i++){
             $categoria_id = $objR->categorias[$i];
             $consulta_categorias="INSERT INTO categorias (receta_id, categoria_id) VALUES ('$id_unico', '$categoria_id')";
             $res = mysqli_query($db,$consulta_categorias);

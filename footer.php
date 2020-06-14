@@ -5,8 +5,8 @@ function HTMLfooter() {
     <footer>
         <section class="pie">
             <a href=>© 2020 Tecnologías Web</a>
-            <a href=>Mapa del sitio</a>
-            <a href=>Contacto</a>
+            <a href=>Miguel Ángel Martín Rodríguez</a>
+            <a href=>José Pablo Márquez Megías</a>
         </section>
 
     </footer>

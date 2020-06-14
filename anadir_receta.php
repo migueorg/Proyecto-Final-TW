@@ -90,7 +90,7 @@ function muestraDatosReceta(Recetas $objR){
     echo "<p>Categorías: ";
     print_r(array_values($objR->categorias));
     for($i=0; $i < count($objR->categorias); $i++){
-        echo ObtenerCategoria($objR->categorias[$i]).",";
+        echo ObtenerCategoria($objR->categorias[$i])." ";
     echo "</p>";
     }
 }

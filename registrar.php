@@ -334,7 +334,7 @@ function simulaIndex(Formularios &$objF){
         saneaDatos($objF);
     }
 
-    if(isset($_SESSION['obj']) && 
+    if(isset($_SESSION['objU']) && 
     isset($objF->nombre) && isset($objF->apellidos) 
     && isset($objF->correo) && isset($objF->clave2)
     && isset($objF->clave1) && $objF->confirmado == 'si'
@@ -342,10 +342,10 @@ function simulaIndex(Formularios &$objF){
         
         InsertarUsuarioBD($objF);
         muestraDatos($objF);
-        unset($_SESSION['obj']);
+        unset($_SESSION['objU']);
             
 
-    }else if(isset($_SESSION['obj']) 
+    }else if(isset($_SESSION['objU']) 
           && isset($objF->nombre) && isset($objF->apellidos) 
           && isset($objF->correo)
           && isset($objF->clave1) && isset($objF->clave2)

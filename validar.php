@@ -16,18 +16,19 @@ if(isset($_POST['login'])){
                 $_SESSION['nombre']=ObtenerNombre($email);
                 $_SESSION['foto']=ObtenerFoto($email);
                 $_SESSION['tipo']=ObtenerTipoUsuario($email);
+                $_SESSION['id']=ObtenerId($email);
                 $evento_log = "El usuario ".$email." se ha logueado";
                 InsertarLog($evento_log);
-            } else
-                $_SESSION['id']=ObtenerId($email);
+            } else{
                 $_SESSION['incorrecto'] = true;
                 $evento_log = "El usuario ".$email." se ha logueado sin éxito";
                 InsertarLog($evento_log);
             }
-        } else{
-            $_SESSION['rellenar'] = true;
-        }
-    } 
+    } else{
+        $_SESSION['rellenar'] = true;
+    }
+}
+    
 }
 else{
     // La sesión debe estar iniciada
