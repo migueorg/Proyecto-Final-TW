@@ -4,9 +4,10 @@ function HTMLmostar_receta($id){
     //echo "<div class='cuerpo'><main>";
     $db = ConectarDB();
     $res = mysqli_query($db,"SELECT * FROM recetas WHERE id='$id'");
-
+    $cat = mysqli_query($db,"SELECT * FROM categorias WHERE receta_id='$id'");
     if($res){
-        while($tupla=mysqli_fetch_array($res)){    
+        while($tupla=mysqli_fetch_array($res)){ 
+            $tuplacat = mysqli_fetch_array($cat);
             $autor = ObtenerAutor($tupla['idautor']);
             $idReceta = $tupla['id'];
             echo "
@@ -16,15 +17,21 @@ function HTMLmostar_receta($id){
                         </section>
 
                         <section class='subtitulo'>
-                            <p>Autor: $autor</p>
-                        </section>
-                    </section>
+                            <p>Autor: $autor</p>";
+                            echo "<p>";
+                            echo $tuplacat['categoria_id'];
+                            for($i=0; $i < count($tuplacat['categoria_id']); $i++){
+                                echo ObtenerCategoria($tuplacat[$i]['categoria_id'])." ";
+                            }
+                            echo "</p>";
+                        echo "</section>
+                    </section>";
 
-                    <section class='info'><p>
+                    echo "<section class='info'>";
                     
-                        {$tupla['descripcion']}";
+                    echo   "{$tupla['descripcion']}";
+                    obtenFotoTitulo($idReceta);
 
-                        obtenFotoTitulo($idReceta);
                     /*
                         $foto = $tupla['Fotografía'];
                         echo "</p><img src='data:image/jpg;base64, ";
@@ -46,7 +53,7 @@ function HTMLmostar_receta($id){
                     <section class='pasos'>
                         <ol>";
 
-                            $preparacion = explode(',',$tupla['preparacion']);
+                            $preparacion = explode('.',$tupla['preparacion']);
                             foreach($preparacion as $i){
                                 echo "<li>".$i."</li>";
                             }
@@ -54,13 +61,17 @@ function HTMLmostar_receta($id){
                     echo "</ol>
                     </section>";
 
-                    echo "<section class='fotos'>";
+                echo "<section class='galeria'>";
                     obtenFotosRecetaMain($idReceta);
-                    echo "</section>";
+                echo "</section>";
 
-                    echo "<section class='comentarios'>
-                        <h1>Zona de Comentarios:</h1>";
-                    listaComentariosReceta($idReceta); 
+                echo "<div class='abajo'>";
+                    echo "<section class='comentarios'>";
+                        listaComentariosReceta($idReceta); 
+                    echo "</section>";
+                echo "</div>";
+
+
                     echo"<form action='index.php?p=nuevo_coment' method='post'>
                             <input type='submit' name='comentar' value='Comentar' />
                             <input name='idReceta' type='hidden' value='$idReceta'>

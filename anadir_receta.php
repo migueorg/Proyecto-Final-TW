@@ -146,7 +146,7 @@ function confirmaDatosReceta(Recetas &$objR){
     echo "<p>Descripción: <textarea name='descripcion'
     rows='4' cols='40' size='40'>".$objR->descripcion."</textarea></p>";
 
-    //Ingredientes
+    //Preparacion
     echo "<p>Preparación: <textarea name='preparacion'
     rows='4' cols='40' size='40'>".$objR->preparacion."</textarea></p>";
 

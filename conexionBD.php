@@ -365,7 +365,7 @@ function InsertarRecetaBD(Recetas $objR){
         $nombre = addslashes( htmlentities( ucwords( $objR->nombre ) ) );
         $descripcion = addslashes( htmlentities($objR->descripcion ) );
         $ingredientes = addslashes( htmlentities($objR->ingredientes ) );
-        $preparacion = addslashes( htmlentities($objR->ingredientes ) );
+        $preparacion = addslashes( htmlentities($objR->preparacion ) );
 
         $consulta="INSERT INTO recetas (id, idautor, nombre, descripcion, ingredientes, preparacion) VALUES ('$id_unico', '$id_autor','$nombre','$descripcion'
         ,'$ingredientes','$preparacion')";
@@ -525,9 +525,9 @@ function listaComentariosReceta($idReceta){
         
         if($res){
             while ($tupla=mysqli_fetch_array($res)){
-                echo "<h2>Comentario:</h2>";
-                echo "<p>Usuario: {$tupla['nombre']}</p>";
-                echo "<p>Comentario: {$tupla['mensaje']}</p>";
+                echo "<div>";
+                echo "<p>{$tupla['nombre']}</p>";
+                echo "<p>{$tupla['mensaje']}</p>";
                 if(isset($_SESSION['tipo'])){
                     if($_SESSION['tipo'] == 'administrador' || $_SESSION['id'] == $tupla['idautor']){
                         $idComentario = $tupla['idcomentario'];
@@ -537,6 +537,7 @@ function listaComentariosReceta($idReceta){
                         </form>";
                     }
                 }
+                echo "</div>";
             }
         }
     }
@@ -597,7 +598,7 @@ function obtenFotosRecetaMain($idReceta){
         if($res){
             $tupla=mysqli_fetch_array($res);
             while($tupla=mysqli_fetch_array($res)){
-                echo "<section class='foto'>";
+                //echo "<section class='foto'>";
                 echo "<img src='data:image/jpg;base64, ";
                 echo base64_encode($tupla['imagen']);
                 echo "'width='200' />";
@@ -615,7 +616,7 @@ function obtenFotoTitulo($idReceta){
 
         if($res){
             $tupla=mysqli_fetch_array($res);
-            echo "<section class='foto'>";
+            //echo "<section class='foto'>";
             echo "<img src='data:image/jpg;base64, ";
             echo base64_encode($tupla['imagen']);
             echo "'width='200' />";
