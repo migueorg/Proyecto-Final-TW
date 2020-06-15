@@ -126,7 +126,6 @@ function inicializaObjR(Recetas &$objR){
     $objR->preparacion=ObtenerPreparacionR($_POST['idReceta']);
     $objR->editarIniciado = 'si';
     $_SESSION['objR'] = $objR;
-    echo "finalizo";
 }
 
 function simulaIndexEditarReceta(Recetas $objR){
@@ -149,6 +148,8 @@ function simulaIndexEditarReceta(Recetas $objR){
         ActualizarRecetaBD($objR);
         muestraDatosReceta($objR);
         unset($_SESSION['objR']);
+        $evento_log = "El usuario ".$_SESSION['email']." ha editado una receta";
+        InsertarLog($evento_log);
             
 
     }else if(isset($_SESSION['objR']) 
@@ -185,6 +186,8 @@ function simulaIndexListaRecetas(){
     }else if(isset($_POST['borrar'])){
 
         BorrarReceta($_POST['idReceta']);
+        $evento_log = "El usuario ".$_SESSION['email']." ha borrado una receta";
+        InsertarLog($evento_log);
         HTMLpag_listarecetas();
 
     }else{
@@ -211,6 +214,19 @@ function simulaIndexListaMisRecetas(){
     }
 
     echo "</main>";
+}
+
+function simulaIndexListarBusqueda(){
+    echo "<div class='cuerpo'><main>";
+
+    formularioBuscar();
+
+    if(isset($_POST['enviar'])){
+        HTMLpag_listarecetasBuscar();
+    }
+
+    echo "</main>";
+
 }
 
 ?>

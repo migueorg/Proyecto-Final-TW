@@ -82,11 +82,9 @@ function saneaDatosEditar(Formularios &$objF){
     //Falta comprobar la extensión del archivo
     if(isset($_FILES['foto']) ){
         if($_FILES['foto']['error'] != 0){  
-            echo "Okey, no modificas la foto";       
             $objF->modificaFoto = 'no';
             //$objF->hayerror['foto'] = '<p class="error">La foto de perfil no puede estar vacía</p>';
         } else{
-            echo "CONVIERTO LA FOTO NUEVA";
             $objF->foto = addslashes(file_get_contents($_FILES['foto']['tmp_name']));
             $objF->orig_name = $_FILES['foto']['name'];
             $objF->modificaFoto = 'si';
@@ -419,13 +417,11 @@ function HTMLpag_editar() {
         $objF_edit->direccion=ObtenerDireccion($_SESSION['email']);
         $objF_edit->telefono=ObtenerTelefono($_SESSION['email']);
         $_SESSION['obj_edit'] = $objF_edit;
-        echo "holaaaaa";
     }//else echo "Ya esta crado el objeto";
 
     editarDatosListar($_SESSION['obj_edit']);
     unset($_SESSION['obj_edit']);
 
-    echo "adios";
     echo "</main>";
 }
 
@@ -526,13 +522,10 @@ function simulaIndexEditar(Formularios &$objF){
     echo "<div class='cuerpo'><main>";
 
     if($objF->editarIniciado == 'no'){
-        echo "ENtro a INICIALIZAR OBJ";
         inicializaObj($objF);
     }
 
     if(isset($_POST['nombre'])){
-        //saneaDatos($objF);
-        echo "ENTRO A SANEAR OBJ";
         saneaDatosEditar($objF);
     }
 
@@ -545,6 +538,8 @@ function simulaIndexEditar(Formularios &$objF){
         ActualizarUsuarioBD($objF);
         muestraDatosEditar($objF);
         unset($_SESSION['obj_edit']);
+        $evento_log = "El usuario ".$_SESSION['email']." ha editado los datos de usuarios";
+        InsertarLog($evento_log);
         if($objF->usuarioAjeno == 'no'){
             forzarCierreSesion();
         }

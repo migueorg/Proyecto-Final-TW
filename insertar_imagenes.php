@@ -41,6 +41,12 @@ function simulaIndexInsertaImagenes(){
 
     if(isset($_POST['nuevaFoto'])){
         insertaImagenBaseDatos();
+        $evento_log = "El usuario ".$_SESSION['email']." ha añadido fotos a la BD";
+        InsertarLog($evento_log);
+    }
+    
+    if(isset($_POST['borrar'])){
+        borraFotosReceta($_POST['idFoto']);
     }
 
     obtenFotosReceta($_POST['idReceta']);

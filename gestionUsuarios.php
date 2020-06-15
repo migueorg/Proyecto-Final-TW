@@ -75,7 +75,8 @@ function switchCaseAdmin($entrada){
             break;
 
         case "registrar": simulaIndex($_SESSION['objU']); break;
-        case "ver_recetas": simulaIndexListaRecetas();break;
+        case "ver_recetas2": simulaIndexListaRecetas();break;
+        case "ver_recetas": simulaIndexListarBusqueda();break;
         case "editar": simulaIndexEditar($_SESSION['obj_editar']); break;
         case "anadir_receta": simulaIndexAnadirReceta($_SESSION['objR']); break;
         case "gestion_usuarios": simulaIndexGestionUsuarios(); break;
@@ -102,7 +103,8 @@ function switchCaseColab($entrada){
             break;
 
         case "registrar": simulaIndex($_SESSION['objU']); break;
-        case "ver_recetas": simulaIndexListaRecetas();break;
+        case "ver_recetas2": simulaIndexListaRecetas();break;
+        case "ver_recetas": simulaIndexListarBusqueda();break;
         case "editar": simulaIndexEditar($_SESSION['obj_editar']); break;
         case "anadir_receta": simulaIndexAnadirReceta($_SESSION['objR']); break;
         case "editar_receta": simulaIndexEditarReceta($_SESSION['objR']);break;
@@ -122,7 +124,8 @@ function switchCaseCualquiera($entrada){
             break;
 
         case "registrar": simulaIndex($_SESSION['obj']); break;
-        case "ver_recetas": simulaIndexListaRecetas();break;
+        case "ver_recetas2": simulaIndexListaRecetas();break;
+        case "ver_recetas": simulaIndexListarBusqueda();break;
 
         default: HTMLpag_inicio(); break;
     }

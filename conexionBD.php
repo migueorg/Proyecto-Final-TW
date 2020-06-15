@@ -479,14 +479,16 @@ function MenuListar($db){
                 $autor = ObtenerAutor($array_autor[$i]);
                 echo "<li class='botoneslista'><p>Título receta:</p><p>".$array_nombres[$i]."</p>";
                 echo "<p>Autor:</p><p>".$autor."</p>";
-                echo "<div><form action='index.php?p=ver_recetas' method='post'>";
+                echo "<div><form action='index.php?p=ver_recetas2' method='post'>";
                 echo "<input type='submit' name='ver' value='Ver'/>";
                 echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
-                if( isset($_SESSION['tipo']) && $_SESSION['tipo']=='administrador' ){
+                //echo $tuplas[$i]['idautor'];
+                //echo $_SESSION['id'];
+                if( isset($_SESSION['tipo']) && ($_SESSION['tipo']=='administrador' || $_SESSION['id'] == $tuplas[$i]['idautor']) ){
                     echo "<form action='index.php?p=editar_receta' method='post'>";
                     echo "<input type='submit' name='editar' value='Editar'/>";
                     echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
-                    echo "<form action='index.php?p=ver_recetas' method='post'>";
+                    echo "<form action='index.php?p=ver_recetas2' method='post'>";
                     echo "<input type='submit' name='borrar' value='Borrar'/>";
                     echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
                 }
@@ -502,11 +504,12 @@ function insertaComentario($mensaje,$idReceta){
         $idComentario = uniqid();
         $idAutor = $_SESSION['id'];
         $nombre = $_SESSION['nombre'];
+        $fecha = date('l jS \of F Y h:i:s A');
         //$mensaje = $_POST['mensaje'];
         //$idReceta = $_POST['idreceta'];
 
-        $consulta="INSERT INTO comentarios (idcomentario,idautor,nombre,mensaje,idreceta) 
-                    VALUES ('$idComentario','$idAutor','$nombre','$mensaje','$idReceta') ";
+        $consulta="INSERT INTO comentarios (idcomentario,idautor,nombre,mensaje,idreceta,fecha) 
+                    VALUES ('$idComentario','$idAutor','$nombre','$mensaje','$idReceta','$fecha') ";
         
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
 
@@ -526,7 +529,7 @@ function listaComentariosReceta($idReceta){
         if($res){
             while ($tupla=mysqli_fetch_array($res)){
                 echo "<div>";
-                echo "<p>{$tupla['nombre']}</p>";
+                echo "<p>{$tupla['nombre']} con fecha {$tupla['fecha']} dijo:</p>";
                 echo "<p>{$tupla['mensaje']}</p>";
                 if(isset($_SESSION['tipo'])){
                     if($_SESSION['tipo'] == 'administrador' || $_SESSION['id'] == $tupla['idautor']){
@@ -573,7 +576,7 @@ function borrarComentario($idComentario){
 function obtenFotosReceta($idReceta){
     $db=conectarDB();
     if($db){
-        $res = mysqli_query($db,"SELECT imagen FROM fotos WHERE idreceta='$idReceta'");
+        $res = mysqli_query($db,"SELECT * FROM fotos WHERE idreceta='$idReceta'");
 
         if($res){
             while($tupla=mysqli_fetch_array($res)){
@@ -581,6 +584,15 @@ function obtenFotosReceta($idReceta){
                 echo "<img src='data:image/jpg;base64, ";
                 echo base64_encode($tupla['imagen']);
                 echo "'width='200' />";
+
+                $idFoto = $tupla['idfoto'];
+                $idRec = $_POST['idReceta'];
+
+                echo"<form action='index.php?p=inserta_imagen' method='post'>
+                <input type='submit' name='borrar' value='Borrar Foto' />
+                <input name='idFoto' type='hidden' value='$idFoto'>
+                <input name='idReceta' type='hidden' value='$idRec'>
+                </form>";
                 //Mas adelante aqui va el boton borrar
                 //Para discriminar de cuando las estas añadiendo puedes usar un if con algun post
             }
@@ -629,8 +641,9 @@ function obtenFotoTitulo($idReceta){
 function insertaFotosReceta($idReceta,$foto){
     $db=conectarDB();
     if($db){
-
-        $consulta="INSERT INTO fotos (idreceta, imagen) VALUES ('$idReceta','$foto')";
+        $idFoto = uniqid();
+        echo $idFoto;
+        $consulta="INSERT INTO fotos (idreceta, imagen, idfoto) VALUES ('$idReceta','$foto','$idFoto')";
 
         $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
 
@@ -640,6 +653,126 @@ function insertaFotosReceta($idReceta,$foto){
 
     }
 
+}
+
+function borraFotosReceta($idFoto){
+    $db=conectarDB();
+    if($db){
+
+        $consulta = "DELETE FROM fotos WHERE idfoto = '$idFoto'";
+
+        $res = mysqli_query($db,$consulta) or trigger_error("Query Failed! SQL: $consulta - Error: ".mysqli_error($db), E_USER_ERROR);
+
+        if($res){
+            //echo "Okay";
+        }
+
+    }
+
+}
+
+
+function formularioBuscar(){
+
+    //Principio Formulario
+    echo " <form action='index.php?p=ver_recetas' method='post'>";
+
+    //Titulo
+    echo "<p>Buscar en título: <input type='text' name='nombre' size='40'></p>";
+
+    //Descripcion
+    echo "<p>Buscar en receta: <textarea name='descripcion' rows='4' cols='40' size='40'></textarea></p>";
+
+    $db = conectarDB();
+    $res = mysqli_query($db,"SELECT * FROM listacategorias");
+    $tuplas=mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+    //Categorías
+    for($i=0; $i < count($tuplas); $i++){
+        echo "<p>".$tuplas[$i]['categoria']."<input type='checkbox' name='".$tuplas[$i]['categoria_id']."' value='".$tuplas[$i]['categoria_id']." '/></p>";
+    }
+
+    //Orden alfabético
+    //echo "<p>Alfabético:<input type='checkbox' name='alfabetico' value='alfabetico'/></p>";
+
+    //Comentarios
+    //echo "<p>De más a menos comentadas:<input type='checkbox' name='comentadas' value='comentadas'/></p>";
+
+    //Cierre y botones
+    echo"  <p>
+    <input type='submit' name='enviar' value='Enviar' />
+    </p>
+    </form>";
+
+}
+
+
+function HTMLpag_listarecetasBuscar(){
+
+    $db = ConectarDB();
+    if($db){
+        $db = conectarDB();
+        $res = mysqli_query($db,"SELECT * FROM listacategorias");
+        $tuplas=mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+        $cat = null;
+        $haycategorias = false;
+        for($i=0; $i < count($tuplas); $i++){
+            if(isset($_POST[$tuplas[$i]['categoria_id']])){
+                $haycategorias = true;
+                    if($cat!=null){
+                        $cat = $cat." OR categorias.categoria_id='".$tuplas[$i]['categoria_id']."' ";
+                    }else
+                    $cat = " categorias.categoria_id='".$tuplas[$i]['categoria_id']."' ";
+            }
+
+        }
+
+        if($haycategorias == false) {
+            $res = mysqli_query($db,"SELECT * from recetas JOIN categorias ON (categorias.receta_id= recetas.id ) 
+            where (nombre LIKE '%".$_POST['nombre']."%' and (descripcion LIKE '%".$_POST['descripcion']."%' or ingredientes 
+            LIKE '%".$_POST['descripcion']."%' or preparacion LIKE '%".$_POST['descripcion']."%'))");
+        }else{
+            $res = mysqli_query($db,"SELECT * from recetas JOIN categorias ON (categorias.receta_id= recetas.id ) 
+            where (nombre LIKE '%".$_POST['nombre']."%' and (descripcion LIKE '%".$_POST['descripcion']."%' or ingredientes 
+            LIKE '%".$_POST['descripcion']."%' or preparacion LIKE '%".$_POST['descripcion']."%') and (".$cat."))");
+        }
+       
+        
+        if($res){
+            
+            MenuListarNueva($res);
+        }//else echo "No funciona";
+    }
+}
+
+function MenuListarNueva($consulta){
+    $tuplas=mysqli_fetch_all($consulta,MYSQLI_ASSOC);
+
+
+    echo "<h1>Listado general de recetas</h1>";
+    
+        echo "<ul>";
+            for($i=0; $i < count($tuplas); $i++){
+                $array_nombres[] = $tuplas[$i]['nombre'];
+                $array_autor[] = $tuplas[$i]['idautor'];
+                $autor = ObtenerAutor($array_autor[$i]);
+                echo "<li class='botoneslista'><p>Título receta:</p><p>".$array_nombres[$i]."</p>";
+                echo "<p>Autor:</p><p>".$autor."</p>";
+                echo "<div><form action='index.php?p=ver_recetas2' method='post'>";
+                echo "<input type='submit' name='ver' value='Ver'/>";
+                echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
+                if( isset($_SESSION['tipo']) && ($_SESSION['tipo']=='administrador' || $_SESSION['id'] == $tuplas[$i]['idautor']) ){
+                    echo "<form action='index.php?p=editar_receta' method='post'>";
+                    echo "<input type='submit' name='editar' value='Editar'/>";
+                    echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
+                    echo "<form action='index.php?p=ver_recetas2' method='post'>";
+                    echo "<input type='submit' name='borrar' value='Borrar'/>";
+                    echo "<input name='idReceta' type='hidden' value='{$tuplas[$i]['id']}'></form>";
+                }
+                echo "</div></li>";
+            }
+    echo "</ul>";
 }
 
 ?>

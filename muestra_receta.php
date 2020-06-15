@@ -19,10 +19,10 @@ function HTMLmostar_receta($id){
                         <section class='subtitulo'>
                             <p>Autor: $autor</p>";
                             echo "<p>";
-                            echo $tuplacat['categoria_id'];
-                            for($i=0; $i < count($tuplacat['categoria_id']); $i++){
-                                echo ObtenerCategoria($tuplacat[$i]['categoria_id'])." ";
-                            }
+                            //echo $tuplacat['categoria_id'];
+                            //for($i=0; $i < count($tuplacat['categoria_id']); $i++){
+                                echo ObtenerCategoria($tuplacat['categoria_id'])." ";
+                            //}
                             echo "</p>";
                         echo "</section>
                     </section>";
@@ -71,12 +71,14 @@ function HTMLmostar_receta($id){
                     echo "</section>";
                 echo "</div>";
 
+                if(isset($_SESSION['email'])){
 
                     echo"<form action='index.php?p=nuevo_coment' method='post'>
-                            <input type='submit' name='comentar' value='Comentar' />
-                            <input name='idReceta' type='hidden' value='$idReceta'>
-                        </form>
+                    <input type='submit' name='comentar' value='Comentar' />
+                    <input name='idReceta' type='hidden' value='$idReceta'>
+                    </form>
                     </section>";
+                }
                     
         }   
     }

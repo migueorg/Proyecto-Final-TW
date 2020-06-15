@@ -88,7 +88,7 @@ function muestraDatosReceta(Recetas $objR){
     echo "<p>Ingredientes: ".$objR->ingredientes."</p>";
     echo "<p>Preparación: ".$objR->preparacion."</p>";
     echo "<p>Categorías: ";
-    print_r(array_values($objR->categorias));
+    //print_r(array_values($objR->categorias));
     for($i=0; $i < count($objR->categorias); $i++){
         echo ObtenerCategoria($objR->categorias[$i])." ";
     echo "</p>";
@@ -202,6 +202,8 @@ function simulaIndexAnadirReceta(Recetas &$objR){
         InsertarRecetaBD($objR);
         muestraDatosReceta($objR);
         unset($_SESSION['objR']);
+        $evento_log = "El usuario ".$_SESSION['email']." a añadido una receta";
+        InsertarLog($evento_log);
             
 
     }else if(isset($_SESSION['objR']) 

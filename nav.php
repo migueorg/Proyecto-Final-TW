@@ -15,7 +15,7 @@ if(isset($_SESSION['tipo'])){
     if($_SESSION['tipo']=='administrador'){
         echo "<li>"."<a href='index.php?p=gestion_usuarios'>Gestión usuarios</a></li>";
         echo "<li>"."<a href='index.php?p=ver_log'>Ver log</a></li>";
-        echo "<li>"."<a href='index.php?p=gestion_bbdd'>Gestión BBDD</a></li>";
+        //echo "<li>"."<a href='index.php?p=gestion_bbdd'>Gestión BBDD</a></li>";
    } 
 }
 echo <<< HTML

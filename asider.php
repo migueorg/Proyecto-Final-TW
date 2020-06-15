@@ -45,16 +45,6 @@ HTML;
 HTML;
     }
     echo <<< HTML
-    <section class="lateral eliminar">
-        <h4>+ valoradas</h4>
-        <ol>
-            <li>Risotto de calabaza
-            y champiñones</li>
-            <li>Pollo al salmorejo</li>
-            <li>Ensalada de
-            espinacas y mango</li>
-        </ol> 
-    </section>
 
     <section class="lateral eliminar">
         <h4>nº recetas</h4>
